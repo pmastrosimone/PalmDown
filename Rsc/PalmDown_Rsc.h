@@ -1,4 +1,5 @@
 /* pilrc generated file.  Do not edit!*/
+#define noErrAlert 1009
 #define MainClearTextButton 1008
 #define MainDescriptionField 1007
 #define MainForm 1006

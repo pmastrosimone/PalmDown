@@ -12,6 +12,8 @@
  
 #include <PalmOS.h>
 #include <PalmOSGlue.h>
+#include <VfsMgr.h>
+#include <ErrorBase.h>
 
 #include "PalmDown.h"
 #include "PalmDown_Rsc.h"
@@ -78,6 +80,27 @@ static void MainFormInit(FormType *frmP)
 	FieldType *field;
 	const char *wizardDescription;
 	UInt16 fieldIndex;
+    Err volErr;
+    UInt16 volRefNum;
+    UInt32 volIterator;
+    int limitReached;
+    limitReached = 0x290D ;
+    
+    volIterator = vfsIteratorStart;
+    
+    while (volIterator != vfsIteratorStop) {
+    	volErr = VFSVolumeEnumerate(&volRefNum, &volIterator);
+    	if (volErr == errNone) {
+    	    FrmAlert (noErrAlert);
+    	    break;
+    	}  if (volErr == limitReached){
+    	    FrmAlert (noErrAlert);
+    	    break;
+    	} else {
+    	 	ErrAlert (volErr);
+    	 	break; 
+    	}    
+ 	   }
 
 	fieldIndex = FrmGetObjectIndex(frmP, MainDescriptionField);
 	field = (FieldType *)FrmGetObjectPtr(frmP, fieldIndex);

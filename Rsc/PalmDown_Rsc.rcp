@@ -81,3 +81,12 @@ BEGIN
     BITMAP "icon-sm-2-d144.bmp" BPP 2 DENSITY 2
     BITMAP "icon-sm-8-d144.bmp" BPP 8 TRANSPARENTINDEX 210 COMPRESS DENSITY 2 
 END
+
+
+ALERT ID noErrAlert 
+INFORMATION
+BEGIN
+     TITLE "No Error"
+     MESSAGE "No Error"
+     BUTTONS "OK" "Cancel"
+END
