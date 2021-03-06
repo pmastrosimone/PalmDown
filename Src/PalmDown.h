@@ -17,7 +17,6 @@
 /*********************************************************************
  * Internal Structures
  *********************************************************************/
- static void FileScan();
 
 
 /*********************************************************************
@@ -34,5 +33,6 @@
 #define appVersionNum			0x01
 #define appPrefID				0x00
 #define appPrefVersionNum		0x01
+#define dbType					'PDdb'
 
 #endif /* PALMDOWN_H_ */
