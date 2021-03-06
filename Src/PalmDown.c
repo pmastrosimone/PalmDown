@@ -14,6 +14,7 @@
 #include <PalmOSGlue.h>
 #include <VfsMgr.h>
 #include <ErrorBase.h>
+#include <MemoryMgr.h>
 
 #include "PalmDown.h"
 #include "PalmDown_Rsc.h"
@@ -77,31 +78,12 @@ static void * GetObjectPtr(UInt16 objectID)
 
 static void MainFormInit(FormType *frmP)
 {
+	
 	FieldType *field;
 	const char *wizardDescription;
 	UInt16 fieldIndex;
-    Err volErr;
-    UInt16 volRefNum;
-    UInt32 volIterator;
-    int limitReached;
-    limitReached = 0x290D ;
-    
-    volIterator = vfsIteratorStart;
-    
-    while (volIterator != vfsIteratorStop) {
-    	volErr = VFSVolumeEnumerate(&volRefNum, &volIterator);
-    	if (volErr == errNone) {
-    	    FrmAlert (noErrAlert);
-    	    break;
-    	}  if (volErr == limitReached){
-    	    FrmAlert (noErrAlert);
-    	    break;
-    	} else {
-    	 	ErrAlert (volErr);
-    	 	break; 
-    	}    
- 	   }
-
+  
+	
 	fieldIndex = FrmGetObjectIndex(frmP, MainDescriptionField);
 	field = (FieldType *)FrmGetObjectPtr(frmP, fieldIndex);
 	FrmSetFocus(frmP, fieldIndex);
@@ -268,7 +250,7 @@ static void AppEventLoop(void)
 	{
 		/* change timeout if you need periodic nilEvents */
 		EvtGetEvent(&event, evtWaitForever);
-
+		FileScan();
 		if (! SysHandleEvent(&event))
 		{
 			if (! MenuHandleEvent(0, &event, &error))
@@ -407,6 +389,84 @@ UInt32 PilotMain(UInt16 cmd, MemPtr cmdPBP, UInt16 launchFlags)
 			AppStop();
 			break;
 	}
-
+    
 	return errNone;
+}
+
+/*
+Function FileScan
+
+This function scans files for .md files within the device. Calls on VFSMGR.
+Should return file list array (in theory). Keep 3 screens worth of file info (next screen
+previous screen and displayed screen) present to get around memory limitations; 
+assume 256 char per every file name. Should keep speed of application good between screens
+if done correctly (in theory). Don't load file metadata unless requested by user (or at all
+honestly). Eventually this function should return the array of files to be displayed.  
+*/
+
+static void FileScan() {
+	int i;
+	
+	UInt16 volRefNum;
+	UInt32 volIterator = vfsIteratorStart;
+ 	UInt16 volRefArray[3];
+ 
+ 	Err volErr;
+ 	i = 0;   
+
+	/* Here is where we scan for addnl. volumes, being sure to set up volRefNum as it
+	is needed to run VFSDirEntryEnumerate apparently */
+	while (volIterator != vfsIteratorStop) {
+		volErr = VFSVolumeEnumerate(&volRefNum, &volIterator);
+		if (volErr == errNone) {
+			volRefArray[i] = volRefNum;
+			i++;
+		}if (volIterator == vfsIteratorStop){
+			break;
+		}
+		else {
+			ErrAlert (volErr);
+			break;
+	}
+	}
+	//Once all volumes are iterated we should ...
+   if (volIterator == vfsIteratorStop) {
+   	/*Scan for compatible files! 
+   	
+	*/
+    Char *fileName = MemPtrNew(256);
+    
+    Err openErr;
+    Err dirErr;
+   	
+   	UInt16 openMode = 0x002U;
+   	UInt32 dirIterator = vfsIteratorStart;
+   	
+   	FileRef fileRefP;
+   	FileInfoType info; 
+    
+    for(i = 0; i < 3; i++){
+     if (i == 0){
+     	const Char filePath = '/'; 
+     	openErr = VFSFileOpen (volRefArray[0], &filePath, openMode, &fileRefP);
+     	if (openErr == errNone) {
+     		info.nameP = fileName;
+     		info.nameBufLen = 256;
+     		while (dirIterator != vfsIteratorStop){
+     			dirErr = VFSDirEntryEnumerate (fileRefP, &dirIterator, &info);
+     			if (dirErr == errNone) {
+     			} else {
+     				ErrAlert (dirErr);
+     				break; 
+     			}
+     		} } else {
+     			 ErrAlert (openErr);
+     			 break;
+     		}
+     	} 
+     	 
+     }
+    
+    }
+
 }
