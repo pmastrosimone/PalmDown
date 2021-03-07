@@ -22,8 +22,11 @@ FileStream.h- what salmon do to lay eggs; or for filestreaming I can't remember 
 #include "PalmDown.h"
 
 const Char *dbName;
+const Char *testData;
+UInt16 pdbIndex; 
 
 
+DmOpenRef reference;
 LocalID dbLoc;
 const UInt16 internalCard = 0;
 
@@ -56,9 +59,62 @@ static Boolean pdbCheck(){
 	 }
 }
 
-static Err pdbCreate(){
+//Function for creating the pdb file on internal storage 
+Err pdbCreate(){
 	Err createErr;
 	
 	createErr = DmCreateDatabase(internalCard, dbName, appFileCreator, dbType, false);
 	return createErr;
 }
+
+//Function for opening the main pdb file
+static DmOpenRef pdbOpen(){
+
+	Err openErr;
+	//May return no open, but at least it doesn't crash the system if there's a null db
+	if (dbLoc == 0){
+		return 0;
+	}
+	reference = DmOpenDatabase(internalCard, dbLoc, dmModeReadWrite);
+	
+	//Error handling
+	openErr = DmGetLastErr();
+	if (openErr != errNone){
+		ErrAlert (openErr);
+		//Return 0 so that way we don't write to a file that "half opened" 
+		return 0;
+	}
+	return reference;
+}
+
+static MemHandle pdbNewRec(){
+	MemHandle handle;
+	const UInt32 size512B = 512;
+
+	
+	pdbIndex = dmMaxRecordIndex; 
+	handle = DmNewRecord(reference, &pdbIndex, size512B);
+	return handle;
+}
+
+Err pdbWriteRec(MemHandle recHandle){
+ Err writeError;
+ MemPtr lockedHandlePtr;
+ 
+ testData = "1234 Is this thing on?";
+ 
+ 
+ lockedHandlePtr = MemHandleLock(recHandle);
+ writeError = DmWrite(lockedHandlePtr, 0, testData, 8);
+ if (writeError != errNone){
+ 	DmReleaseRecord(reference, pdbIndex, true);
+ 	Err unlockErr = MemHandleUnlock(recHandle);
+ 	ErrAlert(unlockErr);
+ 	return writeError;
+ } else{
+ 	Err releaseErr = DmReleaseRecord(reference, pdbIndex, true);
+ 	Err unlockErr = MemHandleUnlock(recHandle); 
+ 	ErrAlert(unlockErr);
+ 	return releaseErr;
+ }
+} 

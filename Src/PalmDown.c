@@ -31,7 +31,7 @@
  *********************************************************************/
 
 /* Define the minimum OS version we support */
-#define ourMinVersion    sysMakeROMVersion(3,0,0,sysROMStageDevelopment,0)
+#define ourMinVersion    sysMakeROMVersion(3,5,0,sysROMStageDevelopment,0)
 #define kPalmOS20Version sysMakeROMVersion(2,0,0,sysROMStageDevelopment,0)
 
 /*********************************************************************
@@ -176,7 +176,11 @@ static Boolean MainFormHandleEvent(EventType * eventP)
 				}
 				break;
 			}
-
+			if (eventP->data.ctlSelect.controlID == testNewRec){
+			 	MemHandle recHandle =  pdbNewRec();
+			 	Err writeErr = pdbWriteRec(recHandle);
+			 	break;
+			} 
 			break;
 		}
 	}
@@ -242,18 +246,10 @@ static void AppEventLoop(void)
 {
 	UInt16 error;
 	EventType event;
-	static Boolean dbFound;
-    Err pdbCreateErr;
 	do 
 	{
 		/* change timeout if you need periodic nilEvents */
 		EvtGetEvent(&event, evtWaitForever);
-		dbFound = pdbCheck();
-		if (dbFound == false){
-			pdbCreateErr = pdbCreate();	
-		} else {
-			
-		}
 		if (! SysHandleEvent(&event))
 		{
 			if (! MenuHandleEvent(0, &event, &error))
@@ -261,7 +257,7 @@ static void AppEventLoop(void)
 				if (! AppHandleEvent(&event))
 				{
 					FrmDispatchEvent(&event);
-				}
+				}				
 			}
 		}
 	} while (event.eType != appStopEvent);
@@ -278,7 +274,26 @@ static void AppEventLoop(void)
 
 static Err AppStart(void)
 {
-
+	static Boolean dbFound;
+    Err pdbCreateErr;
+    static DmOpenRef dbRef;
+    //Check for PalmDownDB
+	dbFound = pdbCheck();
+	//Create db if not found
+	if (dbFound == false){
+		pdbCreateErr = pdbCreate();	
+		//Error handling the creation of db
+		if (pdbCreateErr != errNone){
+			ErrAlert (pdbCreateErr);
+		}
+	} 
+		//Checking for and getting id of pdb
+		pdbCheck();
+		//Opening pdb
+		dbRef = pdbOpen();
+		if (dbRef == 0){
+		   FrmAlert(dbOpenErr);
+		}
 	return errNone;
 }
 

@@ -60,6 +60,7 @@ BEGIN
 		UNDERLINED
 		MAXCHARS 1024
 	BUTTON "Clear Text" ID MainClearTextButton AT (1 147 AUTO 12)
+	BUTTON "testNewRec" ID testNewRec  AT (70 145 54 15)
 END
 
 ICONFAMILYEX
@@ -83,6 +84,7 @@ BEGIN
 END
 
 
+
 ALERT ID noErrAlert 
 INFORMATION
 BEGIN
@@ -90,3 +92,33 @@ BEGIN
      MESSAGE "No Error"
      BUTTONS "OK" "Cancel"
 END
+
+ALERT ID dbOpenErr 
+ERROR
+BEGIN
+     TITLE "Error"
+     MESSAGE "There has been an error opening the database."
+     BUTTONS "OK" 
+END
+
+FORM ID editorForm  AT ( 0 0 160 160 )
+NOFRAME 
+BEGIN
+        TITLE "Editor"
+	FIELD ID editorField  AT (2 16 156 124) MAXCHARS 255 EDITABLE HASSCROLLBAR MULTIPLELINES 
+	
+	
+	GRAFFITISTATEINDICATOR AT (150 149)
+		
+	 
+	POPUPLIST ID editorHeaderTrig  headerEditorList
+	POPUPTRIGGER "#H" ID editorHeaderTrig  AT (1 142 35 16)
+	LIST "H1" "H2" "H3" "H4" "H5" "H6"   ID headerEditorList  AT (17 92 16 68) VISIBLEITEMS 6 NONUSABLE  
+END
+
+
+
+
+
+
+

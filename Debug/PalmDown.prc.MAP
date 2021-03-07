@@ -31,7 +31,7 @@ File:   30	"C:\Program Files (x86)\Metrowerks\CodeWarrior\CW for Palm OS Support
 File:   31	"C:\Users\Phillip Mastrosimone\Palm Development\PalmDown\Rsc\PalmDown_Rsc.rcp"
 File:   32	"C:\Users\Phillip Mastrosimone\Palm Development\PalmDown\Src\PalmDown.c"
 
-Segment:   1    2140 bytes  "Segment 1"
+Segment:   1    2460 bytes  "Segment 1"
 Code: 000004      12 bytes  "__DummyStartup__"               File: "__RuntimeModule__"
 Code: 000010      12 bytes  "__dthandler__4MTWKFv"           File: "NMWException.cp"
 Code: 00001c      12 bytes  "__duhandler__4MTWKFv"
@@ -49,26 +49,33 @@ Code: 000302     128 bytes  "__PatchV10Devices____4MTWKFP14SysAppInfoType"
 Code: 000382     234 bytes  "__LoadAndRelocate____4MTWKFUcP7_opaque"
 Code: 00046c      94 bytes  "pdbCheck"                       File: "C:\Users\Phillip Mastrosimone\Palm Development\PalmDown\Src\PalmDown.c"
 Code: 0004ca      44 bytes  "pdbCreate"
-Code: 0004f6      40 bytes  "GetObjectPtr"
-Code: 00051e     124 bytes  "MainFormInit"
-Code: 00059a      10 bytes  "MainFormDoCommand"
-Code: 0005a4     130 bytes  "MainFormHandleEvent"
-Code: 000626      74 bytes  "AppHandleEvent"
-Code: 000670     110 bytes  "AppEventLoop"
-Code: 0006de      10 bytes  "AppStart"
-Code: 0006e8      12 bytes  "AppStop"
-Code: 0006f4     280 bytes  "RomVersionCompatible"
-Code: 00080c      80 bytes  "PilotMain"
+Code: 0004f6      80 bytes  "pdbOpen"
+Code: 000546      42 bytes  "pdbNewRec"
+Code: 000570     124 bytes  "pdbWriteRec"
+Code: 0005ec      40 bytes  "GetObjectPtr"
+Code: 000614     124 bytes  "MainFormInit"
+Code: 000690      10 bytes  "MainFormDoCommand"
+Code: 00069a     156 bytes  "MainFormHandleEvent"
+Code: 000736      74 bytes  "AppHandleEvent"
+Code: 000780      90 bytes  "AppEventLoop"
+Code: 0007da      78 bytes  "AppStart"
+Code: 000828      12 bytes  "AppStop"
+Code: 000834     280 bytes  "RomVersionCompatible"
+Code: 00094c      80 bytes  "PilotMain"
 
-Data section below A5:     17 bytes
+Data section below A5:     31 bytes
 Data section above A5:    168 bytes
 
 Uninitialized near data
 Data:     -4       4 bytes  "__CW_FEATURES_PTR"
 Data:     -8       4 bytes  "__global_destructor_chain"
 Data:    -12       4 bytes  "dbName"
-Data:    -16       4 bytes  "dbLoc"
-Data:    -17       1 bytes  "dbFound$143"
+Data:    -16       4 bytes  "testData"
+Data:    -18       2 bytes  "pdbIndex"
+Data:    -22       4 bytes  "reference"
+Data:    -26       4 bytes  "dbLoc"
+Data:    -30       4 bytes  "dbRef$200"
+Data:    -31       1 bytes  "dbFound$198"
 
 Initialized far data
 Data:     40     128 bytes  "__segtable__"
@@ -79,9 +86,9 @@ PRC DB Name:       PalmDown
 PRC DB Version:    1
 Type:              appl
 Creator:           PMe5
-Resource Count:    12
-Creation Time:     2021-03-06 @ 1239
-Modification Time: 2021-03-06 @ 1239
+Resource Count:    14
+Creation Time:     2021-03-06 @ 2151
+Modification Time: 2021-03-06 @ 2151
 Last Backup Time:  
 Attributes:         0x00000009
                     dmHdrAttrResDB
@@ -91,13 +98,15 @@ Attributes:         0x00000009
 [PalmDown]
 2:   tver           Application Version String         1000 (0x03e8)     4
 [1.0]
-3:   code           68K Object Code                    1 (0x0001)        2140
+3:   code           68K Object Code                    1 (0x0001)        2460
 4:   data           68K Global Data                    0 (0x0000)        107
 5:   code           68K Object Code                    0 (0x0000)        24
 6:   MBAR           Menu Bar                           1001 (0x03e9)     191
 7:   MBAR           Menu Bar                           1003 (0x03eb)     191
 8:   Talt           Alert                              1005 (0x03ed)     98
-9:   tFRM           Form                               1006 (0x03ee)     190
+9:   tFRM           Form                               1006 (0x03ee)     228
 10:   tAIB           Application Icon                   1000 (0x03e8)     2360
 11:   tAIB           Application Icon                   1001 (0x03e9)     692
-12:   Talt           Alert                              1009 (0x03f1)     36
+12:   Talt           Alert                              1010 (0x03f2)     36
+13:   Talt           Alert                              1011 (0x03f3)     63
+14:   tFRM           Form                               1012 (0x03f4)     270
