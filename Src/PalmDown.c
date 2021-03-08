@@ -178,7 +178,7 @@ static Boolean MainFormHandleEvent(EventType * eventP)
 			}
 			if (eventP->data.ctlSelect.controlID == testNewRec){
 			 	MemHandle recHandle =  pdbNewRec();
-			 	Err writeErr = pdbWriteRec(recHandle);
+			 	Boolean writeSuccess = pdbWriteRec(recHandle);
 			 	break;
 			} 
 			break;
@@ -274,26 +274,9 @@ static void AppEventLoop(void)
 
 static Err AppStart(void)
 {
-	static Boolean dbFound;
-    Err pdbCreateErr;
-    static DmOpenRef dbRef;
-    //Check for PalmDownDB
-	dbFound = pdbCheck();
-	//Create db if not found
-	if (dbFound == false){
-		pdbCreateErr = pdbCreate();	
-		//Error handling the creation of db
-		if (pdbCreateErr != errNone){
-			ErrAlert (pdbCreateErr);
-		}
-	} 
-		//Checking for and getting id of pdb
-		pdbCheck();
-		//Opening pdb
-		dbRef = pdbOpen();
-		if (dbRef == 0){
-		   FrmAlert(dbOpenErr);
-		}
+    DmOpenRef dbRef;
+    dbRef = pdbOpen();
+	
 	return errNone;
 }
 

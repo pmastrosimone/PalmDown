@@ -1,2 +1,12 @@
 PalmDown.mcp
 PalmDown_Data/CWSettingsWindows.stg
+Debug/sources.mk
+.cdtbuild
+.cdtproject
+PalmDown.mcp
+PalmDown_Data/CWSettingsWindows.stg
+Debug/Src/subdir.mk
+Debug/objects.mk
+.project
+auto-generated.mk
+Debug/makefile

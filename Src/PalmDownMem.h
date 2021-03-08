@@ -8,6 +8,7 @@ Also handles filestreaming on the internal storage.
 
 /*
 Includes: 
+PalmOS.h- some sort of dark magic
 MemoryMgr.h- working with memory allocation and structures
 ErrorMgr.h + ErrorBase.h- error and exception handling
 DataMgr.h- working with data and databases
@@ -30,63 +31,42 @@ DmOpenRef reference;
 LocalID dbLoc;
 const UInt16 internalCard = 0;
 
-//Here we check for PalmDownDB, returns false if not found, returns true if found
-//or if the file could not be found due to another error besides file not existing
+/*Here we check for PalmDownDB, returns false if not found, returns true if found
+or if the file could not be found due to another error besides file not existing
 
-static Boolean pdbCheck(){
+pdbOpen, pdbCheck, and pdbCreate are now under one function pdbOpen; which checks for the db, if exists opens and
+returns db ref, if cannot be found, creates, opens, and returns ref, if cannot find db for another reason displ. error 
+
+db opened in R/W mode
+*/
+
+static DmOpenRef pdbOpen(){
 	Err dbLocErr;
+	Err createErr; 
+	
 	dbName = "PalmDownDB";
 	dbLoc = DmFindDatabase(internalCard, dbName);
+	
 	if (dbLoc == 0){
  		dbLocErr = DmGetLastErr();
  		//0x0207 Inidicates file not found, should attempt to handle other errors differently
  		if (dbLocErr == 0x0207){
- 			return false;
+ 			createErr = DmCreateDatabase(internalCard, dbName, appFileCreator, dbType, false);
+ 			dbLoc = DmFindDatabase(internalCard, dbName);
+ 			reference = DmOpenDatabase(internalCard, dbLoc, dmModeReadWrite);
+ 			return reference;	
  		} else {
- 			
- 			/* If another error is found, we return true
- 			so that way a new DB is not being created when one
- 			may or may not already exist
- 			
- 			NOTE: Maybe the pdbCheck should be changed from bool to some type of int
- 			or err to handle more than 2 cases*/
- 			
+ 			//Alert for errors other than file NF; return no ref.
  			ErrAlert (dbLocErr);
- 			return true; 
+ 			return 0; 
  		}
  	} else {
- 		return true;
+ 		reference = DmOpenDatabase(internalCard, dbLoc, dmModeReadWrite);
+ 		return reference;	
 	 }
 }
 
-//Function for creating the pdb file on internal storage 
-Err pdbCreate(){
-	Err createErr;
-	
-	createErr = DmCreateDatabase(internalCard, dbName, appFileCreator, dbType, false);
-	return createErr;
-}
-
-//Function for opening the main pdb file
-static DmOpenRef pdbOpen(){
-
-	Err openErr;
-	//May return no open, but at least it doesn't crash the system if there's a null db
-	if (dbLoc == 0){
-		return 0;
-	}
-	reference = DmOpenDatabase(internalCard, dbLoc, dmModeReadWrite);
-	
-	//Error handling
-	openErr = DmGetLastErr();
-	if (openErr != errNone){
-		ErrAlert (openErr);
-		//Return 0 so that way we don't write to a file that "half opened" 
-		return 0;
-	}
-	return reference;
-}
-
+//Creates a new record within the internal database of 512 bytes and returns its handle
 static MemHandle pdbNewRec(){
 	MemHandle handle;
 	const UInt32 size512B = 512;
@@ -97,10 +77,10 @@ static MemHandle pdbNewRec(){
 	return handle;
 }
 
-Err pdbWriteRec(MemHandle recHandle){
+//Writes record, return t/f based on success, currently writing test data
+Boolean pdbWriteRec(MemHandle recHandle){
  Err writeError;
  MemPtr lockedHandlePtr;
- 
  testData = "1234 Is this thing on?";
  
  
@@ -108,13 +88,12 @@ Err pdbWriteRec(MemHandle recHandle){
  writeError = DmWrite(lockedHandlePtr, 0, testData, 8);
  if (writeError != errNone){
  	DmReleaseRecord(reference, pdbIndex, true);
- 	Err unlockErr = MemHandleUnlock(recHandle);
- 	ErrAlert(unlockErr);
- 	return writeError;
- } else{
- 	Err releaseErr = DmReleaseRecord(reference, pdbIndex, true);
- 	Err unlockErr = MemHandleUnlock(recHandle); 
- 	ErrAlert(unlockErr);
- 	return releaseErr;
- }
-} 
+ 	MemHandleUnlock(recHandle);
+ 	ErrAlert(writeError);
+ 	return false;	
+ 	} else{
+ 		DmReleaseRecord(reference, pdbIndex, true);
+ 		MemHandleUnlock(recHandle);	
+ 		return true;
+ 	}
+}
