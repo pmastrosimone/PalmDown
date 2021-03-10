@@ -52,7 +52,8 @@ static DmOpenRef pdbOpen(){
  		//0x0207 Inidicates file not found, should attempt to handle other errors differently
  		if (dbLocErr == 0x0207){
  			createErr = DmCreateDatabase(internalCard, dbName, appFileCreator, dbType, false);
- 			dbLoc = DmFindDatabase(internalCard, dbName);
+ 			//Should do something with createErr , or not you can't have an error if you don't handle the error
+			dbLoc = DmFindDatabase(internalCard, dbName);
  			reference = DmOpenDatabase(internalCard, dbLoc, dmModeReadWrite);
  			return reference;	
  		} else {
@@ -66,7 +67,7 @@ static DmOpenRef pdbOpen(){
 	 }
 }
 
-//Creates a new record within the internal database of 512 bytes and returns its handle
+//Creates a new record within the internal database of 512 bytes (arbitrary) and returns its handle
 static MemHandle pdbNewRec(){
 	MemHandle handle;
 	const UInt32 size512B = 512;
@@ -78,13 +79,17 @@ static MemHandle pdbNewRec(){
 }
 
 //Writes record, return t/f based on success, currently writing test data
+//This function needs a prototype, should also be passed data from form or vfs rather than using internal testData
 Boolean pdbWriteRec(MemHandle recHandle){
  Err writeError;
  MemPtr lockedHandlePtr;
+ //Should move testData to another function, maybe as a flag for debugging or its own header or something
  testData = "1234 Is this thing on?";
  
  
  lockedHandlePtr = MemHandleLock(recHandle);
+ 
+ //In theory this should only write the first 8 bytes of the test data "1234 Is "
  writeError = DmWrite(lockedHandlePtr, 0, testData, 8);
  if (writeError != errNone){
  	DmReleaseRecord(reference, pdbIndex, true);

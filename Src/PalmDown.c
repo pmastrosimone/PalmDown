@@ -11,7 +11,6 @@
 #include <VfsMgr.h>
 #include <ErrorBase.h>
 #include <MemoryMgr.h>
-
 #include "PalmDown.h"
 #include "PalmDown_Rsc.h"
 #include "PalmDownMem.h"
@@ -180,12 +179,75 @@ static Boolean MainFormHandleEvent(EventType * eventP)
 			 	MemHandle recHandle =  pdbNewRec();
 			 	Boolean writeSuccess = pdbWriteRec(recHandle);
 			 	break;
-			} 
+			}
+			if (eventP->data.ctlSelect.controlID == editTestButton){
+				FrmGotoForm(editorForm);
+			}
 			break;
 		}
 	}
     
 	return handled;
+}
+
+static void editorFormInit(FormType *frmP){
+	
+}
+
+static Boolean editorFormDoCommand(UInt16 command){
+	Boolean handled = false;
+
+	switch (command)
+	{
+
+	}
+
+	return handled;
+}
+
+static Boolean editorFormHandleEvent(EventType * eventP){
+	Boolean handled = false; 
+	FormType *frmP;
+	switch (eventP->eType){
+		case menuEvent:
+			return editorFormDoCommand(eventP->data.menu.itemID);
+
+		case frmOpenEvent:
+			frmP = FrmGetActiveForm();
+			FrmDrawForm(frmP);
+			editorFormInit(frmP);
+			handled = true;
+			break;
+            
+        case frmUpdateEvent:
+			/* 
+			 * To do any custom drawing here, first call
+			 * FrmDrawForm(), then do your drawing, and
+			 * then set handled to true. 
+			 */
+			break;
+			
+		case ctlSelectEvent:
+		{
+			/*if (eventP->data.ctlSelect.controlID == MainClearTextButton)
+			{
+				
+				FieldType * field = (FieldType*)GetObjectPtr(MainDescriptionField);
+				if (field)
+				{
+					FldDelete(field, 0, 0xFFFF);					
+					FldDrawField(field);
+				}
+				break;
+			}
+			if (eventP->data.ctlSelect.controlID == testNewRec){
+			 	MemHandle recHandle =  pdbNewRec();
+			 	Boolean writeSuccess = pdbWriteRec(recHandle);
+			 	break;*/
+			//} 
+			break;
+		}
+	}
 }
 
 /*
@@ -228,7 +290,9 @@ static Boolean AppHandleEvent(EventType * eventP)
 			case MainForm:
 				FrmSetEventHandler(frmP, MainFormHandleEvent);
 				break;
-
+			case editorForm:
+				FrmSetEventHandler(frmP, editorFormHandleEvent);
+				break;
 		}
 		return true;
 	}

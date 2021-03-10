@@ -12,7 +12,7 @@ File:   11	"PalmOS_GlobalDestructors.c"
 File:   12	"PalmOS_setjmp.c"
 File:   13	"PalmOS_Startup.cpp"
 File:   14	"CWRuntime.c"
-File:   15	"C:\Program Files (x86)\Metrowerks\CodeWarrior\CW for Palm OS Support\MSL\MSL_C++\MSL_Palm_OS\Lib\68K\MSL_C++_PalmOS_2i_Dbg.lib"
+File:   15	"C:\Program Files (x86)\Metrowerks\CodeWarrior\CW for Palm OS Support\MSL\MSL_C++\MSL_Palm_OS\Lib\68K\MSL_C++_PalmOS_2i.lib"
 File:   16	"C:\Program Files (x86)\Metrowerks\CodeWarrior\CW for Palm OS Support\MSL\MSL_C++\MSL_Common\Src\ios.cpp"
 File:   17	"C:\Program Files (x86)\Metrowerks\CodeWarrior\CW for Palm OS Support\MSL\MSL_C++\MSL_Common\Src\iostream.cpp"
 File:   18	"C:\Program Files (x86)\Metrowerks\CodeWarrior\CW for Palm OS Support\MSL\MSL_C++\MSL_Common\Src\MSLstring.cpp"
@@ -31,7 +31,7 @@ File:   30	"C:\Program Files (x86)\Metrowerks\CodeWarrior\CW for Palm OS Support
 File:   31	"C:\Users\Phillip Mastrosimone\Palm Development\PalmDown\Rsc\PalmDown_Rsc.rcp"
 File:   32	"C:\Users\Phillip Mastrosimone\Palm Development\PalmDown\Src\PalmDown.c"
 
-Segment:   1    2540 bytes  "Segment 1"
+Segment:   1    2306 bytes  "Segment 1"
 Code: 000004      12 bytes  "__DummyStartup__"               File: "__RuntimeModule__"
 Code: 000010      12 bytes  "__dthandler__4MTWKFv"           File: "NMWException.cp"
 Code: 00001c      12 bytes  "__duhandler__4MTWKFv"
@@ -47,22 +47,22 @@ Code: 000276       8 bytes  "__InitCode__"
 Code: 00027e     132 bytes  "__SkipToXREFs____4MTWKFPSc"
 Code: 000302     128 bytes  "__PatchV10Devices____4MTWKFP14SysAppInfoType"
 Code: 000382     234 bytes  "__LoadAndRelocate____4MTWKFUcP7_opaque"
-Code: 00046c     182 bytes  "pdbOpen"                        File: "C:\Users\Phillip Mastrosimone\Palm Development\PalmDown\Src\PalmDown.c"
-Code: 000522      42 bytes  "pdbNewRec"
-Code: 00054c     160 bytes  "pdbWriteRec"
-Code: 0005ec      40 bytes  "GetObjectPtr"
-Code: 000614     124 bytes  "MainFormInit"
-Code: 000690      10 bytes  "MainFormDoCommand"
-Code: 00069a     180 bytes  "MainFormHandleEvent"
-Code: 00074e       8 bytes  "editorFormInit"
-Code: 000756      10 bytes  "editorFormDoCommand"
-Code: 000760      80 bytes  "editorFormHandleEvent"
-Code: 0007b0      92 bytes  "AppHandleEvent"
-Code: 00080c      90 bytes  "AppEventLoop"
-Code: 000866      18 bytes  "AppStart"
-Code: 000878      12 bytes  "AppStop"
-Code: 000884     280 bytes  "RomVersionCompatible"
-Code: 00099c      80 bytes  "PilotMain"
+Code: 00046c     172 bytes  "pdbOpen"                        File: "C:\Users\Phillip Mastrosimone\Palm Development\PalmDown\Src\PalmDown.c"
+Code: 000518      36 bytes  "pdbNewRec"
+Code: 00053c     154 bytes  "pdbWriteRec"
+Code: 0005d6      34 bytes  "GetObjectPtr"
+Code: 0005f8     118 bytes  "MainFormInit"
+Code: 00066e       4 bytes  "MainFormDoCommand"
+Code: 000672     168 bytes  "MainFormHandleEvent"
+Code: 00071a       2 bytes  "editorFormInit"
+Code: 00071c       4 bytes  "editorFormDoCommand"
+Code: 000720      66 bytes  "editorFormHandleEvent"
+Code: 000762      86 bytes  "AppHandleEvent"
+Code: 0007b8      90 bytes  "AppEventLoop"
+Code: 000812       8 bytes  "AppStart"
+Code: 00081a       6 bytes  "AppStop"
+Code: 000820     148 bytes  "RomVersionCompatible"
+Code: 0008b4      78 bytes  "PilotMain"
 
 Data section below A5:     26 bytes
 Data section above A5:    168 bytes
@@ -86,8 +86,8 @@ PRC DB Version:    1
 Type:              appl
 Creator:           PMe5
 Resource Count:    14
-Creation Time:     2021-03-09 @ 2130
-Modification Time: 2021-03-09 @ 2130
+Creation Time:     2021-03-09 @ 2116
+Modification Time: 2021-03-09 @ 2116
 Last Backup Time:  
 Attributes:         0x00000009
                     dmHdrAttrResDB
@@ -97,7 +97,7 @@ Attributes:         0x00000009
 [PalmDown]
 2:   tver           Application Version String         1000 (0x03e8)     4
 [1.0]
-3:   code           68K Object Code                    1 (0x0001)        2540
+3:   code           68K Object Code                    1 (0x0001)        2306
 4:   data           68K Global Data                    0 (0x0000)        107
 5:   code           68K Object Code                    0 (0x0000)        24
 6:   MBAR           Menu Bar                           1001 (0x03e9)     191
