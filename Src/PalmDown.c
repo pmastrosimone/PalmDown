@@ -14,6 +14,7 @@
 #include "PalmDown.h"
 #include "PalmDown_Rsc.h"
 #include "PalmDownMem.h"
+#include "PalmDownVFS.h"
 
 /*********************************************************************
  * Entry Points
@@ -248,6 +249,7 @@ static Boolean editorFormHandleEvent(EventType * eventP){
 			break;
 		}
 	}
+	return handled;
 }
 
 /*
@@ -340,6 +342,7 @@ static Err AppStart(void)
 {
     DmOpenRef dbRef;
     dbRef = pdbOpen();
+	openVolume();
 	
 	return errNone;
 }
