@@ -31,8 +31,7 @@ DmOpenRef reference;
 LocalID dbLoc;
 const UInt16 internalCard = 0;
 
-/*Here we check for PalmDownDB, returns false if not found, returns true if found
-or if the file could not be found due to another error besides file not existing
+/*Here we check for PalmDownDB
 
 pdbOpen, pdbCheck, and pdbCreate are now under one function pdbOpen; which checks for the db, if exists opens and
 returns db ref, if cannot be found, creates, opens, and returns ref, if cannot find db for another reason displ. error 
@@ -52,7 +51,8 @@ static DmOpenRef pdbOpen(){
  		//0x0207 Inidicates file not found, should attempt to handle other errors differently
  		if (dbLocErr == 0x0207){
  			createErr = DmCreateDatabase(internalCard, dbName, appFileCreator, dbType, false);
- 			//Should do something with createErr , or not you can't have an error if you don't handle the error
+ 			//Should do something with createErr 
+			//200IQ solution: you can't have an error if you don't handle the error
 			dbLoc = DmFindDatabase(internalCard, dbName);
  			reference = DmOpenDatabase(internalCard, dbLoc, dmModeReadWrite);
  			return reference;	
@@ -99,6 +99,11 @@ Boolean pdbWriteRec(MemHandle recHandle){
  	} else{
  		DmReleaseRecord(reference, pdbIndex, true);
  		MemHandleUnlock(recHandle);	
- 		return true;
+		return true;
  	}
+}
+
+//Freeing memory, should only be called in appStop but may be useful in other cases
+Err memStop(){
+	
 }

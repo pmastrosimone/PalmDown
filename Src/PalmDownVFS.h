@@ -46,13 +46,22 @@ UInt16 openVolume(){
 	volIterPtr = vfsIteratorStart;
 	dirIterPtr = vfsIteratorStart;
 	
+	//turn this into while loop for mult. volumes (?)
 	volEnumErr = VFSVolumeEnumerate(&volRefPtr, &volIterPtr);
-	
+	//if mult. volumes are implemented, find some way to get user input before passing volref
 	volOpenErr = VFSFileOpen(volRefPtr, "/", 0x0002U, &dirRef);
 	
+	if (volOpenErr == errNone){
+		while(dirIterPtr != vfsIteratorStop){
+			dirEnumErr = VFSDirEntryEnumerate(dirRef, &dirIterPtr, &fileInfo);
+			if (dirEnumErr == errNone){
+				//Here we should check for .md files, true- add file to list or struct   false- don't
+			} else{
+			}
+		}
+	}
 	
-	dirEnumErr = VFSDirEntryEnumerate(dirRef, &dirIterPtr, &fileInfo);
-	
+	//Get that shit out of here
 	MemHandleUnlock(fileBuffer);
 	MemHandleFree(fileBuffer);
 	
