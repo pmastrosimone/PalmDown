@@ -22,6 +22,9 @@ FileStream.h- what salmon do to lay eggs; or for filestreaming I can't remember 
 #include <FileStream.h>
 #include "PalmDown.h"
 
+/*GLOBALS
+
+Should see if these can become locals*/
 const Char *dbName;
 const Char *testData;
 UInt16 pdbIndex; 

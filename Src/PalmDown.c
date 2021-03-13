@@ -81,20 +81,20 @@ static void MainFormInit(FormType *frmP)
 	UInt16 fieldIndex;
   
 	
-	fieldIndex = FrmGetObjectIndex(frmP, MainDescriptionField);
+	fieldIndex = FrmGetObjectIndex(frmP, fileTable);
 	field = (FieldType *)FrmGetObjectPtr(frmP, fieldIndex);
 	FrmSetFocus(frmP, fieldIndex);
 
-	wizardDescription =
+	/*wizardDescription =
 		"C application\n"
 		"Creator Code: PMe5\n"
 		"\n"
 		"Other SDKs:\n"
 		;
-				
+			*/	
 	/* dont stack FldInsert calls, since each one generates a
 	 * fldChangedEvent, and multiple uses can overflow the event queue */
-	FldInsert(field, wizardDescription, StrLen(wizardDescription));
+	//FldInsert(field, wizardDescription, StrLen(wizardDescription));
 }
 
 /*
@@ -165,17 +165,6 @@ static Boolean MainFormHandleEvent(EventType * eventP)
 			
 		case ctlSelectEvent:
 		{
-			if (eventP->data.ctlSelect.controlID == MainClearTextButton)
-			{
-				/* The "Clear" button was hit. Clear the contents of the field. */
-				FieldType * field = (FieldType*)GetObjectPtr(MainDescriptionField);
-				if (field)
-				{
-					FldDelete(field, 0, 0xFFFF);					
-					FldDrawField(field);
-				}
-				break;
-			}
 			if (eventP->data.ctlSelect.controlID == testNewRec){
 			 	MemHandle recHandle =  pdbNewRec();
 			 	Boolean writeSuccess = pdbWriteRec(recHandle);

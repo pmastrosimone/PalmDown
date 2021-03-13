@@ -7,10 +7,10 @@
 #define editorForm 1013
 #define dbOpenErr 1012
 #define noErrAlert 1011
-#define editTestButton 1010
-#define testNewRec 1009
-#define MainClearTextButton 1008
-#define MainDescriptionField 1007
+#define fileTable 1010
+#define editTestButton 1009
+#define testNewRec 1008
+#define MainClearTextButton 1007
 #define MainForm 1006
 #define RomIncompatibleAlert 1005
 #define EditOnlyMenuBar 1003
