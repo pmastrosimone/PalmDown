@@ -23,8 +23,10 @@
 /*********************************************************************
  * Global variables
  *********************************************************************/
-
-
+//file List Record Pointer (entry 9 in PDDB)
+MemPtr *fileLRecP;
+//n is number of .md files found 
+UInt16 n;
 
 /*********************************************************************
  * Internal Constants
@@ -60,6 +62,7 @@ static void * GetObjectPtr(UInt16 objectID)
 
 	frmP = FrmGetActiveForm();
 	return FrmGetObjectPtr(frmP, FrmGetObjectIndex(frmP, objectID));
+	
 }
 
 /*
@@ -77,14 +80,19 @@ static void MainFormInit(FormType *frmP)
 {
 	
 	FieldType *field;
-	const char *wizardDescription;
 	UInt16 fieldIndex;
-  
+  	UInt32 offset = 0; 
+	UInt32 endOff = n * 256;
+	UInt16 rowIter;
+	TableType *fileTablePtr;
 	
-	fieldIndex = FrmGetObjectIndex(frmP, fileTable);
+	fileTablePtr = FrmGetObjectPtr(frmP, FrmGetObjectIndex(frmP, fileTable));
+	
+	/*fieldIndex = FrmGetObjectIndex(frmP, fileTable);
 	field = (FieldType *)FrmGetObjectPtr(frmP, fieldIndex);
-	FrmSetFocus(frmP, fieldIndex);
+	FrmSetFocus(frmP, fieldIndex);*/
 
+	
 	/*wizardDescription =
 		"C application\n"
 		"Creator Code: PMe5\n"
@@ -95,6 +103,13 @@ static void MainFormInit(FormType *frmP)
 	/* dont stack FldInsert calls, since each one generates a
 	 * fldChangedEvent, and multiple uses can overflow the event queue */
 	//FldInsert(field, wizardDescription, StrLen(wizardDescription));
+	while(rowIter != n){
+		TblSetItemPtr(fileTablePtr, rowIter, 0, fileLRecP[offset]);
+		offset += 256;
+		rowIter++;
+	}
+    TblDrawTable(fileTablePtr);
+
 }
 
 /*
@@ -329,9 +344,13 @@ static void AppEventLoop(void)
 
 static Err AppStart(void)
 {
+
+	UInt32 bytes;
     DmOpenRef dbRef;
     dbRef = pdbOpen();
-	openVolume();
+	n = openVolume();
+	bytes = n * 256;
+	getFiles(n, bytes, dbRef);
 	
 	return errNone;
 }

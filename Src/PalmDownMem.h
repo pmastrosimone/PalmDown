@@ -45,7 +45,7 @@ db opened in R/W mode
 static DmOpenRef pdbOpen(){
 	Err dbLocErr;
 	Err createErr; 
-	
+	UInt16 recordIter;
 	dbName = "PalmDownDB";
 	dbLoc = DmFindDatabase(internalCard, dbName);
 	
@@ -58,6 +58,11 @@ static DmOpenRef pdbOpen(){
 			//200IQ solution: you can't have an error if you don't handle the error
 			dbLoc = DmFindDatabase(internalCard, dbName);
  			reference = DmOpenDatabase(internalCard, dbLoc, dmModeReadWrite);
+ 			//Here record numbers 0-8 (16Byte) are made for application preferences, while unused for now
+ 			//pre-allocating means the program shouldn't have to search for data in the sea of files
+ 			for(recordIter = 0; recordIter != 8; recordIter++){
+ 				DmNewRecord(reference, &recordIter, 16);
+ 			}
  			return reference;	
  		} else {
  			//Alert for errors other than file NF; return no ref.
