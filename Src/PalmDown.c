@@ -27,6 +27,8 @@
 MemPtr *fileLRecP;
 //n is number of .md files found 
 UInt16 n;
+const Char *testData;
+testData = "1234 Is this thing on?";
 
 /*********************************************************************
  * Internal Constants
@@ -182,7 +184,8 @@ static Boolean MainFormHandleEvent(EventType * eventP)
 		{
 			if (eventP->data.ctlSelect.controlID == testNewRec){
 			 	MemHandle recHandle =  pdbNewRec();
-			 	Boolean writeSuccess = pdbWriteRec(recHandle);
+			 	//Currently calls pdbWriteRec as a test, and passes testData
+			 	Boolean writeSuccess = pdbWriteRec(recHandle, testData);
 			 	break;
 			}
 			if (eventP->data.ctlSelect.controlID == editTestButton){
@@ -350,7 +353,7 @@ static Err AppStart(void)
     dbRef = pdbOpen();
 	n = openVolume();
 	bytes = n * 256;
-	getFiles(n, bytes, dbRef);
+	fileLRecP = getFiles(n, bytes, dbRef);
 	
 	return errNone;
 }

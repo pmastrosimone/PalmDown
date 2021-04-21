@@ -1,2 +1,3 @@
 # PalmDown
- Markdown editor for Palm OS devices or something
+ Markdown editor for Palm OS devices.
+ 

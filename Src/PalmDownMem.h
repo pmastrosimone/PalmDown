@@ -76,7 +76,7 @@ static DmOpenRef pdbOpen(){
 }
 
 //Creates a new record within the internal database of 512 bytes (arbitrary) and returns its handle
-static MemHandle pdbNewRec(){
+MemHandle pdbNewRec(){
 	MemHandle handle;
 	const UInt32 size512B = 512;
 
@@ -88,17 +88,16 @@ static MemHandle pdbNewRec(){
 
 //Writes record, return t/f based on success, currently writing test data
 //This function needs a prototype, should also be passed data from form or vfs rather than using internal testData
-Boolean pdbWriteRec(MemHandle recHandle){
+//testData has been moved to PalmDown.c as a global
+Boolean pdbWriteRec(MemHandle recHandle, Char data){
  Err writeError;
  MemPtr lockedHandlePtr;
- //Should move testData to another function, maybe as a flag for debugging or its own header or something
- testData = "1234 Is this thing on?";
  
  
  lockedHandlePtr = MemHandleLock(recHandle);
  
  //In theory this should only write the first 8 bytes of the test data "1234 Is "
- writeError = DmWrite(lockedHandlePtr, 0, testData, 8);
+ writeError = DmWrite(lockedHandlePtr, 0, data, 8);
  if (writeError != errNone){
  	DmReleaseRecord(reference, pdbIndex, true);
  	MemHandleUnlock(recHandle);
@@ -114,4 +113,9 @@ Boolean pdbWriteRec(MemHandle recHandle){
 //Freeing memory, should only be called in appStop but may be useful in other cases
 Err memStop(){
 	
+}
+
+//Used to populate the table from fileList(vfs), should (in theory) also be able to be used for internal storage
+void populateTable(MemPtr fileListP, UInt16 n){
+
 }

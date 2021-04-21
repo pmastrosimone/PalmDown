@@ -15,6 +15,9 @@ Includes:
 
 */
 
+//SHOULD THIS BE REWRITTEN AS A LOOP (i.e., as each valid file is populated, a new row is added with fname)
+//rather than dicking around with 30000+ functions doing similar things and adding complexity/mem consumption
+
 #include <PalmOS.h>
 #include <VfsMgr.h>
 #include <StringMgr.h>
@@ -61,7 +64,9 @@ UInt16 openVolume(){
 		while(dirIterPtr != vfsIteratorStop){
 			dirEnumErr = VFSDirEntryEnumerate(dirRef, &dirIterPtr, &fileInfo);
 			if (dirEnumErr == errNone){
-				//Here we should check for .md files, true- add file to list or struct   false- don't
+				//Here we check for .md files
+				//Redeclaring variables in loop every time seems unecessary (impact unknown), 
+				//move these out eventually to be safe
 				UInt16 size;
 				const UInt16 extSize = 3;
 				UInt16 compareStart;
@@ -89,7 +94,7 @@ UInt16 openVolume(){
 	
 	}
 	
-	//Get that shit out of here (as in the memory, not as in removing the free func)
+	//Freeing the fileBuffer
 	MemHandleUnlock(fileBuffer);
 	MemHandleFree(fileBuffer);
 	
@@ -97,8 +102,9 @@ UInt16 openVolume(){
 }
 
 //Copied a lot of this code from openVolume
-//In theory this should return a ptr to file array
-
+//Returns handle to PDDB rec containing file names
+//This function may be able to be combined into openVolume, resizing entry 9 + offsetting in PDDB as needed
+//May even be able to include table drawing
 MemPtr getFiles(UInt16 size, UInt16 bytes, DmOpenRef dbRef){
 	UInt16 fRec = 9;
 	UInt16 offset = 0;
@@ -147,6 +153,8 @@ MemPtr getFiles(UInt16 size, UInt16 bytes, DmOpenRef dbRef){
 			dirEnumErr = VFSDirEntryEnumerate(dirRef, &dirIterPtr, &fileInfo);
 			if (dirEnumErr == errNone){
 				//Here we should check for .md files, true- add file to list or struct   false- don't
+				//Redeclaring variables in loop every time seems unecessary (impact unknown), 
+				//move these out eventually to be safe
 				UInt16 sizeStr;
 				const UInt16 extSize = 3;
 				UInt16 compareStart;
