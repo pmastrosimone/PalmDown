@@ -58,9 +58,9 @@ static DmOpenRef pdbOpen(){
 			//200IQ solution: you can't have an error if you don't handle the error
 			dbLoc = DmFindDatabase(internalCard, dbName);
  			reference = DmOpenDatabase(internalCard, dbLoc, dmModeReadWrite);
- 			//Here record numbers 0-8 (16Byte) are made for application preferences, while unused for now
- 			//pre-allocating means the program shouldn't have to search for data in the sea of files
- 			for(recordIter = 0; recordIter != 8; recordIter++){
+ 			//Here record numbers 0-9 (16Byte) are made for application preferences, while unused for now
+ 			//pre-allocating means the program shouldn't have to search for data in the sea of records
+ 			for(recordIter = 0; recordIter != 9; recordIter++){
  				DmNewRecord(reference, &recordIter, 16);
  			}
  			return reference;	
@@ -89,7 +89,7 @@ MemHandle pdbNewRec(){
 //Writes record, return t/f based on success, currently writing test data
 //This function needs a prototype, should also be passed data from form or vfs rather than using internal testData
 //testData has been moved to PalmDown.c as a global
-Boolean pdbWriteRec(MemHandle recHandle, Char data){
+Boolean pdbWriteRec(MemHandle recHandle, const Char *data){
  Err writeError;
  MemPtr lockedHandlePtr;
  
@@ -97,7 +97,7 @@ Boolean pdbWriteRec(MemHandle recHandle, Char data){
  lockedHandlePtr = MemHandleLock(recHandle);
  
  //In theory this should only write the first 8 bytes of the test data "1234 Is "
- writeError = DmWrite(lockedHandlePtr, 0, data, 8);
+ writeError = DmWrite(lockedHandlePtr, 0, &data, 8);
  if (writeError != errNone){
  	DmReleaseRecord(reference, pdbIndex, true);
  	MemHandleUnlock(recHandle);
@@ -116,6 +116,14 @@ Err memStop(){
 }
 
 //Used to populate the table from fileList(vfs), should (in theory) also be able to be used for internal storage
-void populateTable(MemPtr fileListP, UInt16 n){
-
-}
+/*void populateTable(MemPtr fileListP, UInt16 n, UInt32 bytes, TableType fileTablePtr){
+	UInt16 offset = 0;
+	Int16 row = 0;
+	Int16 col = 0;
+	
+	while (offset != bytes){
+		TblSetItemPtr(fileTablePtr, row, col, fileListP[offset]);
+		offset += 256;
+		row++; 
+	}
+}		  */

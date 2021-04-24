@@ -27,8 +27,10 @@
 MemPtr *fileLRecP;
 //n is number of .md files found 
 UInt16 n;
+UInt16 fRecStop;
 const Char *testData;
-testData = "1234 Is this thing on?";
+
+//testData = "1234 Is this thing on?";
 
 /*********************************************************************
  * Internal Constants
@@ -86,9 +88,10 @@ static void MainFormInit(FormType *frmP)
   	UInt32 offset = 0; 
 	UInt32 endOff = n * 256;
 	UInt16 rowIter;
-	TableType *fileTablePtr;
+	//TableType *fileTablePtr;
 	
-	fileTablePtr = FrmGetObjectPtr(frmP, FrmGetObjectIndex(frmP, fileTable));
+	//fileTablePtr = FrmGetObjectPtr(frmP, FrmGetObjectIndex(frmP, fileTable));
+	//populateTable(fileLRecP, n, bytes, fileTablePtr);
 	
 	/*fieldIndex = FrmGetObjectIndex(frmP, fileTable);
 	field = (FieldType *)FrmGetObjectPtr(frmP, fieldIndex);
@@ -105,12 +108,12 @@ static void MainFormInit(FormType *frmP)
 	/* dont stack FldInsert calls, since each one generates a
 	 * fldChangedEvent, and multiple uses can overflow the event queue */
 	//FldInsert(field, wizardDescription, StrLen(wizardDescription));
-	while(rowIter != n){
-		TblSetItemPtr(fileTablePtr, rowIter, 0, fileLRecP[offset]);
-		offset += 256;
-		rowIter++;
-	}
-    TblDrawTable(fileTablePtr);
+	//while(rowIter != n){
+		//TblSetItemPtr(fileTablePtr, rowIter, 0, fileLRecP[offset]);
+		//offset += 256;
+		//rowIter++;
+	//}
+    //TblDrawTable(fileTablePtr);
 
 }
 
@@ -351,10 +354,9 @@ static Err AppStart(void)
 	UInt32 bytes;
     DmOpenRef dbRef;
     dbRef = pdbOpen();
-	n = openVolume();
+	n = openVolume(dbRef);
 	bytes = n * 256;
-	fileLRecP = getFiles(n, bytes, dbRef);
-	
+	fRecStop = n + 10;
 	return errNone;
 }
 
