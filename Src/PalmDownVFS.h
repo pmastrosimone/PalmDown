@@ -61,6 +61,7 @@ UInt16 openVolume(DmOpenRef dbRef){
 	//Save for the Zodiac this may not be necessary
 	volEnumErr = VFSVolumeEnumerate(&volRefPtr, &volIterPtr);
 	//if mult. volumes are implemented, find some way to get user input before passing volref
+	//Maybe just a different version for the Zodiac?
 	volOpenErr = VFSFileOpen(volRefPtr, "/", 0x0002U, &dirRef);
 	
 	if (volOpenErr == errNone){
