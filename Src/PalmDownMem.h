@@ -40,6 +40,8 @@ pdbOpen, pdbCheck, and pdbCreate are now under one function pdbOpen; which check
 returns db ref, if cannot be found, creates, opens, and returns ref, if cannot find db for another reason displ. error 
 
 db opened in R/W mode
+
+TODO: Ask user before creating new DB(?)
 */
 
 static DmOpenRef pdbOpen(){

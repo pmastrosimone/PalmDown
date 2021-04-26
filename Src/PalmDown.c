@@ -11,6 +11,7 @@
 #include <VfsMgr.h>
 #include <ErrorBase.h>
 #include <MemoryMgr.h>
+#include <Table.h>
 #include "PalmDown.h"
 #include "PalmDown_Rsc.h"
 #include "PalmDownMem.h"
@@ -23,8 +24,8 @@
 /*********************************************************************
  * Global variables
  *********************************************************************/
-//file List Record Pointer (entry 9 in PDDB)
-MemPtr *fileLRecP;
+//file List ref (entry 10 to 10+n in PDDB)
+DmOpenRef dbRef;
 //n is number of .md files found 
 UInt16 n;
 UInt16 fRecStop;
@@ -44,7 +45,7 @@ const Char *testData;
  * Internal Functions
  *********************************************************************/
 
-/*
+/*		 
  * FUNCTION: GetObjectPtr
  *
  * DESCRIPTION:
@@ -85,17 +86,28 @@ static void MainFormInit(FormType *frmP)
 	
 	FieldType *field;
 	UInt16 fieldIndex;
-  	UInt32 offset = 0; 
-	UInt32 endOff = n * 256;
-	UInt16 rowIter;
-	//TableType *fileTablePtr;
+  	UInt16 row = 0; 
+	UInt16 recIter = 10;
+	//Setting recStop to 10 + n goes out of index
+	UInt16 recStop = 9 + n;
+	MemHandle recordHandle;
+	TableType *fileTablePtr;
+	Err tableLoadErr;
 	
-	//fileTablePtr = FrmGetObjectPtr(frmP, FrmGetObjectIndex(frmP, fileTable));
+	fileTablePtr = GetObjectPtr(fileTable);
 	//populateTable(fileLRecP, n, bytes, fileTablePtr);
-	
-	/*fieldIndex = FrmGetObjectIndex(frmP, fileTable);
+	while(recIter != recStop){
+		recordHandle = DmQueryRecord(dbRef, recIter);
+		TblSetRowUsable(fileTablePtr, row, true);
+		//tableLoadErr = TableLoadDataFuncType (fileTablePtr, row, 0, false, recordHandle, 0, 256, field);
+		DmReleaseRecord(dbRef, recIter, false);
+		row++;
+		recIter++;
+	}
+	TblDrawTable(fileTablePtr);
+	fieldIndex = FrmGetObjectIndex(frmP, fileTable);
 	field = (FieldType *)FrmGetObjectPtr(frmP, fieldIndex);
-	FrmSetFocus(frmP, fieldIndex);*/
+	FrmSetFocus(frmP, fieldIndex);
 
 	
 	/*wizardDescription =
@@ -113,7 +125,7 @@ static void MainFormInit(FormType *frmP)
 		//offset += 256;
 		//rowIter++;
 	//}
-    //TblDrawTable(fileTablePtr);
+
 
 }
 
@@ -170,8 +182,9 @@ static Boolean MainFormHandleEvent(EventType * eventP)
 
 		case frmOpenEvent:
 			frmP = FrmGetActiveForm();
-			FrmDrawForm(frmP);
+			
 			MainFormInit(frmP);
+			FrmDrawForm(frmP);
 			handled = true;
 			break;
             
@@ -181,6 +194,7 @@ static Boolean MainFormHandleEvent(EventType * eventP)
 			 * FrmDrawForm(), then do your drawing, and
 			 * then set handled to true. 
 			 */
+			 FrmDrawForm(frmP);
 			break;
 			
 		case ctlSelectEvent:
@@ -352,7 +366,7 @@ static Err AppStart(void)
 {
 
 	UInt32 bytes;
-    DmOpenRef dbRef;
+   
     dbRef = pdbOpen();
 	n = openVolume(dbRef);
 	bytes = n * 256;

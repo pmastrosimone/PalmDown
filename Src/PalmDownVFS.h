@@ -42,7 +42,7 @@ UInt16 openVolume(DmOpenRef dbRef){
 	
 	/*apparently you can't make it check for the null terminator (for checking eostr ext)
 	  we'll take care of this further down*/
-	mdext = ".md";
+	mdext = ".md";			 
 	 
 	
 	fileBuffer = MemHandleNew(256);
@@ -58,6 +58,7 @@ UInt16 openVolume(DmOpenRef dbRef){
 	n = 0;
 	
 	//turn this into while loop for mult. volumes (?)
+	//Save for the Zodiac this may not be necessary
 	volEnumErr = VFSVolumeEnumerate(&volRefPtr, &volIterPtr);
 	//if mult. volumes are implemented, find some way to get user input before passing volref
 	volOpenErr = VFSFileOpen(volRefPtr, "/", 0x0002U, &dirRef);
