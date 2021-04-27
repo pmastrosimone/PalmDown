@@ -57,7 +57,9 @@ BEGIN
 	BUTTON "Clear Text" ID MainClearTextButton AT (1 147 AUTO 12)
 	BUTTON "testNewRec" ID testNewRec  AT (0 107 54 15)
 	BUTTON "editTestButton" ID editTestButton  AT (1 128 67 14)
-	TABLE ID fileTable  AT (2 17 155 84) ROWS 10 COLUMNS 2 COLUMNWIDTHS 110 20
+	TABLE ID fileTable  AT (0 17 149 84) ROWS 10 COLUMNS 2 COLUMNWIDTHS 110 20
+	
+	SCROLLBAR ID fileTableScroll  AT (152 17 7 83) USABLE VALUE 50 MIN 0 MAX 100 PAGESIZE 10
 END
 
 ICONFAMILYEX
@@ -113,7 +115,12 @@ BEGIN
 	POPUPTRIGGER "#H" ID editorHeader  AT (2 143 37 15)
 LIST   "H1" "H2" "H3" "H4" "H5" "H6"   ID editorHeaderList  AT (PREVLEFT PREVTOP-55 PREVWIDTH-20 68) VISIBLEITEMS 6  
 POPUPLIST ID editorHeader  editorHeaderList
+	BUTTON "backToMain" ID backToMain  AT (90 140 56 22)
 END
+
+
+
+
 
 
 

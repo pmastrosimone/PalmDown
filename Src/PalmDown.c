@@ -91,21 +91,21 @@ static void MainFormInit(FormType *frmP)
 	//Setting recStop to 10 + n goes out of index
 	UInt16 recStop = 9 + n;
 	MemHandle recordHandle;
-	TableType *fileTablePtr;
+	
 	Err tableLoadErr;
 	
-	fileTablePtr = GetObjectPtr(fileTable);
+	
 	//populateTable(fileLRecP, n, bytes, fileTablePtr);
 	while(recIter != recStop){
 		recordHandle = DmQueryRecord(dbRef, recIter);
-		TblSetRowUsable(fileTablePtr, row, true);
+		//TblSetRowUsable(fileTablePtr, row, true);
 		//tableLoadErr = TableLoadDataFuncType (fileTablePtr, row, 0, false, recordHandle, 0, 256, field);
 		DmReleaseRecord(dbRef, recIter, false);
 		row++;
 		recIter++;
 	}
-	TblDrawTable(fileTablePtr);
-	fieldIndex = FrmGetObjectIndex(frmP, fileTable);
+	
+	//fieldIndex = FrmGetObjectIndex(frmP, fileTable);
 	field = (FieldType *)FrmGetObjectPtr(frmP, fieldIndex);
 	FrmSetFocus(frmP, fieldIndex);
 
@@ -174,7 +174,9 @@ static Boolean MainFormHandleEvent(EventType * eventP)
 {
 	Boolean handled = false;
 	FormType * frmP;
-
+    TableType * fileTablePtr;
+    fileTablePtr = FrmGetObjectPtr(frmP, FrmGetObjectIndex(frmP, fileTable));
+    
 	switch (eventP->eType) 
 	{
 		case menuEvent:
@@ -184,6 +186,7 @@ static Boolean MainFormHandleEvent(EventType * eventP)
 			frmP = FrmGetActiveForm();
 			
 			MainFormInit(frmP);
+			
 			FrmDrawForm(frmP);
 			handled = true;
 			break;
@@ -194,7 +197,10 @@ static Boolean MainFormHandleEvent(EventType * eventP)
 			 * FrmDrawForm(), then do your drawing, and
 			 * then set handled to true. 
 			 */
+
 			 FrmDrawForm(frmP);
+			 TblDrawTable(fileTablePtr);
+			 handled = true;	
 			break;
 			
 		case ctlSelectEvent:
