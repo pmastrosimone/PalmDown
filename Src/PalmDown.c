@@ -30,8 +30,9 @@ DmOpenRef dbRef;
 UInt16 n;
 UInt16 fRecStop;
 const Char *testData;
+TableType *fileTablePtr;
 
-//testData = "1234 Is this thing on?";
+//
 
 /*********************************************************************
  * Internal Constants
@@ -88,25 +89,30 @@ static void MainFormInit(FormType *frmP)
 	UInt16 fieldIndex;
   	UInt16 row = 0; 
 	UInt16 recIter = 10;
-	//Setting recStop to 10 + n goes out of index
 	UInt16 recStop = 9 + n;
 	MemHandle recordHandle;
-	
+    UInt32 recIDP;
 	Err tableLoadErr;
-	
-	
-	//populateTable(fileLRecP, n, bytes, fileTablePtr);
+	Err recordInfoErr;
+	fileTablePtr = GetObjectPtr(fileTable);
 	while(recIter != recStop){
+		if(recStop == 9){
+			break;
+		}
+		TblSetRowUsable(fileTablePtr, row, true);
 		recordHandle = DmQueryRecord(dbRef, recIter);
-		//TblSetRowUsable(fileTablePtr, row, true);
-		//tableLoadErr = TableLoadDataFuncType (fileTablePtr, row, 0, false, recordHandle, 0, 256, field);
+		
+		recordInfoErr = DmRecordInfo(dbRef, recIter, NULL, &recIDP, NULL);
+		TblSetItemStyle(fileTablePtr, row, 0, labelTableItem);
+		TblSetRowData(fileTablePtr, row, recIDP);
+		TblSetItemPtr(fileTablePtr, row, 0, &testData);
 		DmReleaseRecord(dbRef, recIter, false);
 		row++;
 		recIter++;
 	}
-	
-	//fieldIndex = FrmGetObjectIndex(frmP, fileTable);
-	field = (FieldType *)FrmGetObjectPtr(frmP, fieldIndex);
+	TblMarkTableInvalid(fileTablePtr);
+	fieldIndex = FrmGetObjectIndex(frmP, fileTable);
+
 	FrmSetFocus(frmP, fieldIndex);
 
 	
@@ -174,8 +180,6 @@ static Boolean MainFormHandleEvent(EventType * eventP)
 {
 	Boolean handled = false;
 	FormType * frmP;
-    TableType * fileTablePtr;
-    fileTablePtr = FrmGetObjectPtr(frmP, FrmGetObjectIndex(frmP, fileTable));
     
 	switch (eventP->eType) 
 	{
@@ -186,8 +190,9 @@ static Boolean MainFormHandleEvent(EventType * eventP)
 			frmP = FrmGetActiveForm();
 			
 			MainFormInit(frmP);
-			
+			TblDrawTable(fileTablePtr);
 			FrmDrawForm(frmP);
+			
 			handled = true;
 			break;
             
@@ -197,10 +202,9 @@ static Boolean MainFormHandleEvent(EventType * eventP)
 			 * FrmDrawForm(), then do your drawing, and
 			 * then set handled to true. 
 			 */
-
-			 FrmDrawForm(frmP);
-			 TblDrawTable(fileTablePtr);
-			 handled = true;	
+			 
+			 FrmDrawForm(frmP);	
+			 TblRedrawTable(fileTablePtr);
 			break;
 			
 		case ctlSelectEvent:
@@ -372,7 +376,7 @@ static Err AppStart(void)
 {
 
 	UInt32 bytes;
-   
+    testData = "1234 Is this thing on?";
     dbRef = pdbOpen();
 	n = openVolume(dbRef);
 	bytes = n * 256;
