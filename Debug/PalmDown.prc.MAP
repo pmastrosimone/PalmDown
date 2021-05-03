@@ -31,7 +31,7 @@ File:   30	"\\engserv\cdserver\Product_Layouts\PalmOS\Version 9.0\Win Layout\CW 
 File:   31	"Z:\home\pmastrosimone\Development\PalmDown\Rsc\PalmDown_Rsc.rcp"
 File:   32	"Z:\home\pmastrosimone\Development\PalmDown\Src\PalmDown.c"
 
-Segment:   1    2994 bytes  "Segment 1"
+Segment:   1    3044 bytes  "Segment 1"
 Code: 000004      12 bytes  "__DummyStartup__"               File: "__RuntimeModule__"
 Code: 000010      12 bytes  "__dthandler__4MTWKFv"           File: "NMWException.cp"
 Code: 00001c      12 bytes  "__duhandler__4MTWKFv"
@@ -52,20 +52,20 @@ Code: 00054a      42 bytes  "pdbNewRec"
 Code: 000574     128 bytes  "pdbWriteRec"
 Code: 0005f4     316 bytes  "openVolume"
 Code: 000730      40 bytes  "GetObjectPtr"
-Code: 000758     204 bytes  "MainFormInit"
-Code: 000824      10 bytes  "MainFormDoCommand"
-Code: 00082e     160 bytes  "MainFormHandleEvent"
-Code: 0008ce       8 bytes  "editorFormInit"
-Code: 0008d6      10 bytes  "editorFormDoCommand"
-Code: 0008e0      82 bytes  "editorFormHandleEvent"
-Code: 000932      92 bytes  "AppHandleEvent"
-Code: 00098e      90 bytes  "AppEventLoop"
-Code: 0009e8      86 bytes  "AppStart"
-Code: 000a3e      12 bytes  "AppStop"
-Code: 000a4a     280 bytes  "RomVersionCompatible"
-Code: 000b62      80 bytes  "PilotMain"
+Code: 000758     270 bytes  "MainFormInit"
+Code: 000866      10 bytes  "MainFormDoCommand"
+Code: 000870     144 bytes  "MainFormHandleEvent"
+Code: 000900       8 bytes  "editorFormInit"
+Code: 000908      10 bytes  "editorFormDoCommand"
+Code: 000912      82 bytes  "editorFormHandleEvent"
+Code: 000964      92 bytes  "AppHandleEvent"
+Code: 0009c0      90 bytes  "AppEventLoop"
+Code: 000a1a      86 bytes  "AppStart"
+Code: 000a70      12 bytes  "AppStop"
+Code: 000a7c     280 bytes  "RomVersionCompatible"
+Code: 000b94      80 bytes  "PilotMain"
 
-Data section below A5:     38 bytes
+Data section below A5:     34 bytes
 Data section above A5:    168 bytes
 
 Uninitialized near data
@@ -79,7 +79,6 @@ Data:    -26       4 bytes  "dbLoc"
 Data:    -30       4 bytes  "dbRef"
 Data:    -32       2 bytes  "n"
 Data:    -34       2 bytes  "fRecStop"
-Data:    -38       4 bytes  "fileTablePtr"
 
 Initialized far data
 Data:     40     128 bytes  "__segtable__"
@@ -91,8 +90,8 @@ PRC DB Version:    1
 Type:              appl
 Creator:           PMe5
 Resource Count:    14
-Creation Time:     2021-04-28 @ 0915
-Modification Time: 2021-04-28 @ 0915
+Creation Time:     2021-05-03 @ 1304
+Modification Time: 2021-05-03 @ 1304
 Last Backup Time:  
 Attributes:         0x00000009
                     dmHdrAttrResDB
@@ -100,9 +99,9 @@ Attributes:         0x00000009
 
 1:   tAIN           Application Name String            1000 (0x03e8)     9
 [PalmDown]
-2:   tver           Application Version String         1000 (0x03e8)     10
-[21.04.27d]
-3:   code           68K Object Code                    1 (0x0001)        2994
+2:   tver           Application Version String         1000 (0x03e8)     11
+[21.05..03d]
+3:   code           68K Object Code                    1 (0x0001)        3044
 4:   data           68K Global Data                    0 (0x0000)        107
 5:   code           68K Object Code                    0 (0x0000)        24
 6:   MBAR           Menu Bar                           1001 (0x03e9)     191

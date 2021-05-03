@@ -8,10 +8,13 @@
  
 #include <PalmOS.h>
 #include <PalmOSGlue.h>
+#include <Form.h>
 #include <VfsMgr.h>
 #include <ErrorBase.h>
 #include <MemoryMgr.h>
 #include <Table.h>
+#include <DataMgr.h>
+#include <TextMgr.h>
 #include "PalmDown.h"
 #include "PalmDown_Rsc.h"
 #include "PalmDownMem.h"
@@ -30,7 +33,7 @@ DmOpenRef dbRef;
 UInt16 n;
 UInt16 fRecStop;
 const Char *testData;
-TableType *fileTablePtr;
+
 
 //
 
@@ -84,38 +87,48 @@ static void * GetObjectPtr(UInt16 objectID)
 
 static void MainFormInit(FormType *frmP)
 {
-	
+	const UInt16 i = n - 1;
+	Char recordChar;
+	FieldPtr tableItem;
 	FieldType *field;
 	UInt16 fieldIndex;
   	UInt16 row = 0; 
 	UInt16 recIter = 10;
-	UInt16 recStop = 9 + n;
+	TableType *fileTablePtr;
+	Int16 zeroOff = 0;
+	Int16 byte256 = 256;
 	MemHandle recordHandle;
     UInt32 recIDP;
 	Err tableLoadErr;
 	Err recordInfoErr;
+	MemPtr lockRecPtr;
+	Boolean fldInsertDebug;
 	fileTablePtr = GetObjectPtr(fileTable);
-	while(recIter != recStop){
-		if(recStop == 9){
+	
+
+	TblMarkTableInvalid(fileTablePtr);
+    TblDrawTable(fileTablePtr); 
+	fieldIndex = FrmGetObjectIndex(frmP, fileTable);
+    FrmShowObject(frmP, fieldIndex);
+	FrmSetFocus(frmP, fieldIndex);
+	
+	while(row != i){
+		if(n == 0){
 			break;
 		}
-		TblSetRowUsable(fileTablePtr, row, true);
 		recordHandle = DmQueryRecord(dbRef, recIter);
-		
 		recordInfoErr = DmRecordInfo(dbRef, recIter, NULL, &recIDP, NULL);
-		TblSetItemStyle(fileTablePtr, row, 0, labelTableItem);
+		lockRecPtr = MemHandleLock(recordHandle);
+		StrNCopy(&recordChar, lockRecPtr, StrLen(lockRecPtr));
+		TblGrabFocus(fileTablePtr, row, 0);
+		tableItem = TblGetCurrentField(fileTablePtr);
+		TblSetItemStyle(fileTablePtr, row, 0, textTableItem);
 		TblSetRowData(fileTablePtr, row, recIDP);
-		TblSetItemPtr(fileTablePtr, row, 0, &testData);
-		DmReleaseRecord(dbRef, recIter, false);
+		fldInsertDebug = FldInsert(tableItem, &recordChar, StrLen(&recordChar));
+		MemPtrUnlock(lockRecPtr);
 		row++;
 		recIter++;
 	}
-	TblMarkTableInvalid(fileTablePtr);
-	fieldIndex = FrmGetObjectIndex(frmP, fileTable);
-
-	FrmSetFocus(frmP, fieldIndex);
-
-	
 	/*wizardDescription =
 		"C application\n"
 		"Creator Code: PMe5\n"
@@ -190,9 +203,8 @@ static Boolean MainFormHandleEvent(EventType * eventP)
 			frmP = FrmGetActiveForm();
 			
 			MainFormInit(frmP);
-			TblDrawTable(fileTablePtr);
-			FrmDrawForm(frmP);
 			
+			FrmDrawForm(frmP);
 			handled = true;
 			break;
             
@@ -204,7 +216,7 @@ static Boolean MainFormHandleEvent(EventType * eventP)
 			 */
 			 
 			 FrmDrawForm(frmP);	
-			 TblRedrawTable(fileTablePtr);
+			 handled = true;	
 			break;
 			
 		case ctlSelectEvent:
