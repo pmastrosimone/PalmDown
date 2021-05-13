@@ -14,6 +14,7 @@
 #include <MemoryMgr.h>
 #include <Table.h>
 #include <DataMgr.h>
+#include <StringMgr.h>
 #include <TextMgr.h>
 #include "PalmDown.h"
 #include "PalmDown_Rsc.h"
@@ -87,48 +88,54 @@ static void * GetObjectPtr(UInt16 objectID)
 
 static void MainFormInit(FormType *frmP)
 {
-	const UInt16 i = n - 1;
-	Char recordChar;
-	FieldPtr tableItem;
+	//const UInt16 i = n - 1;
+	//Char recordChar;
+	//FieldPtr tableItem;
 	FieldType *field;
-	UInt16 fieldIndex;
-  	UInt16 row = 0; 
-	UInt16 recIter = 10;
+	//UInt16 fieldIndex;
+  	//UInt16 row = 0; 
+	//UInt16 recIter = 9;
 	TableType *fileTablePtr;
-	Int16 zeroOff = 0;
-	Int16 byte256 = 256;
-	MemHandle recordHandle;
-    UInt32 recIDP;
-	Err tableLoadErr;
-	Err recordInfoErr;
-	MemPtr lockRecPtr;
-	Boolean fldInsertDebug;
+	//Int16 zeroOff = 0;
+	//Int16 byte256 = 256;
+	//MemHandle recordHandle;
+    //UInt32 recIDP;
+	//Err tableLoadErr;
+	//Err recordInfoErr;
+	//MemPtr lockRecPtr;
+	//Boolean fldInsertDebug;
 	fileTablePtr = GetObjectPtr(fileTable);
 	
 
-	TblMarkTableInvalid(fileTablePtr);
-    TblDrawTable(fileTablePtr); 
-	fieldIndex = FrmGetObjectIndex(frmP, fileTable);
-    FrmShowObject(frmP, fieldIndex);
-	FrmSetFocus(frmP, fieldIndex);
-	
-	while(row != i){
+
+
+	//fieldIndex = FrmGetObjectIndex(frmP, fileTable);
+    //FrmShowObject(frmP, fieldIndex);
+	//FrmSetFocus(frmP, fieldIndex);
+	populateTable(frmP, fileTablePtr, n);
+	//TblGrabFocus(fileTablePtr, row, 0);
+	/*while(row != n){
 		if(n == 0){
 			break;
 		}
 		recordHandle = DmQueryRecord(dbRef, recIter);
 		recordInfoErr = DmRecordInfo(dbRef, recIter, NULL, &recIDP, NULL);
 		lockRecPtr = MemHandleLock(recordHandle);
-		StrNCopy(&recordChar, lockRecPtr, StrLen(lockRecPtr));
-		TblGrabFocus(fileTablePtr, row, 0);
+		TblInsertRow(fileTablePtr, row);
+		TblSetSelection(fileTablePtr, row, 0);
+		TblSetRowUsable(fileTablePtr, row, true);
 		tableItem = TblGetCurrentField(fileTablePtr);
-		TblSetItemStyle(fileTablePtr, row, 0, textTableItem);
+		//TblSetItemStyle(fileTablePtr, row, 0, labelTableItem);
 		TblSetRowData(fileTablePtr, row, recIDP);
-		fldInsertDebug = FldInsert(tableItem, &recordChar, StrLen(&recordChar));
+		FldSetText(tableItem, recordHandle, 0, StrLen(lockRecPtr));
+		TblMarkRowInvalid(fileTablePtr, row);
 		MemPtrUnlock(lockRecPtr);
+	
 		row++;
 		recIter++;
-	}
+	}		  */
+	//TblMarkTableInvalid(fileTablePtr);	
+
 	/*wizardDescription =
 		"C application\n"
 		"Creator Code: PMe5\n"
@@ -205,6 +212,7 @@ static Boolean MainFormHandleEvent(EventType * eventP)
 			MainFormInit(frmP);
 			
 			FrmDrawForm(frmP);
+			
 			handled = true;
 			break;
             
@@ -215,14 +223,16 @@ static Boolean MainFormHandleEvent(EventType * eventP)
 			 * then set handled to true. 
 			 */
 			 
-			 FrmDrawForm(frmP);	
+			 FrmDrawForm(frmP);
+			 MainFormInit(frmP);	
+			
 			 handled = true;	
 			break;
 			
 		case ctlSelectEvent:
 		{
 			if (eventP->data.ctlSelect.controlID == testNewRec){
-			 	MemHandle recHandle =  pdbNewRec();
+			 	MemHandle recHandle =  pdbNewRec(512);
 			 	//Currently calls pdbWriteRec as a test, and passes testData
 			 	Boolean writeSuccess = pdbWriteRec(recHandle, testData);
 			 	break;

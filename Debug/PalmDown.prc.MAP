@@ -31,7 +31,7 @@ File:   30	"\\engserv\cdserver\Product_Layouts\PalmOS\Version 9.0\Win Layout\CW 
 File:   31	"Z:\home\pmastrosimone\Development\PalmDown\Rsc\PalmDown_Rsc.rcp"
 File:   32	"Z:\home\pmastrosimone\Development\PalmDown\Src\PalmDown.c"
 
-Segment:   1    3044 bytes  "Segment 1"
+Segment:   1    3088 bytes  "Segment 1"
 Code: 000004      12 bytes  "__DummyStartup__"               File: "__RuntimeModule__"
 Code: 000010      12 bytes  "__dthandler__4MTWKFv"           File: "NMWException.cp"
 Code: 00001c      12 bytes  "__duhandler__4MTWKFv"
@@ -50,20 +50,21 @@ Code: 000382     234 bytes  "__LoadAndRelocate____4MTWKFUcP7_opaque"
 Code: 00046c     222 bytes  "pdbOpen"                        File: "Z:\home\pmastrosimone\Development\PalmDown\Src\PalmDown.c"
 Code: 00054a      42 bytes  "pdbNewRec"
 Code: 000574     128 bytes  "pdbWriteRec"
-Code: 0005f4     316 bytes  "openVolume"
-Code: 000730      40 bytes  "GetObjectPtr"
-Code: 000758     270 bytes  "MainFormInit"
-Code: 000866      10 bytes  "MainFormDoCommand"
-Code: 000870     144 bytes  "MainFormHandleEvent"
-Code: 000900       8 bytes  "editorFormInit"
-Code: 000908      10 bytes  "editorFormDoCommand"
-Code: 000912      82 bytes  "editorFormHandleEvent"
-Code: 000964      92 bytes  "AppHandleEvent"
-Code: 0009c0      90 bytes  "AppEventLoop"
-Code: 000a1a      86 bytes  "AppStart"
-Code: 000a70      12 bytes  "AppStop"
-Code: 000a7c     280 bytes  "RomVersionCompatible"
-Code: 000b94      80 bytes  "PilotMain"
+Code: 0005f4     256 bytes  "populateTable"
+Code: 0006f4     322 bytes  "openVolume"
+Code: 000836      40 bytes  "GetObjectPtr"
+Code: 00085e      40 bytes  "MainFormInit"
+Code: 000886      10 bytes  "MainFormDoCommand"
+Code: 000890     156 bytes  "MainFormHandleEvent"
+Code: 00092c       8 bytes  "editorFormInit"
+Code: 000934      10 bytes  "editorFormDoCommand"
+Code: 00093e      82 bytes  "editorFormHandleEvent"
+Code: 000990      92 bytes  "AppHandleEvent"
+Code: 0009ec      90 bytes  "AppEventLoop"
+Code: 000a46      86 bytes  "AppStart"
+Code: 000a9c      12 bytes  "AppStop"
+Code: 000aa8     280 bytes  "RomVersionCompatible"
+Code: 000bc0      80 bytes  "PilotMain"
 
 Data section below A5:     34 bytes
 Data section above A5:    168 bytes
@@ -90,8 +91,8 @@ PRC DB Version:    1
 Type:              appl
 Creator:           PMe5
 Resource Count:    14
-Creation Time:     2021-05-03 @ 1304
-Modification Time: 2021-05-03 @ 1304
+Creation Time:     2021-05-13 @ 1059
+Modification Time: 2021-05-13 @ 1059
 Last Backup Time:  
 Attributes:         0x00000009
                     dmHdrAttrResDB
@@ -101,15 +102,15 @@ Attributes:         0x00000009
 [PalmDown]
 2:   tver           Application Version String         1000 (0x03e8)     11
 [21.05..03d]
-3:   code           68K Object Code                    1 (0x0001)        3044
+3:   code           68K Object Code                    1 (0x0001)        3088
 4:   data           68K Global Data                    0 (0x0000)        107
 5:   code           68K Object Code                    0 (0x0000)        24
 6:   MBAR           Menu Bar                           1001 (0x03e9)     191
 7:   MBAR           Menu Bar                           1003 (0x03eb)     191
 8:   Talt           Alert                              1005 (0x03ed)     98
-9:   tFRM           Form                               1006 (0x03ee)     650
+9:   tFRM           Form                               1006 (0x03ee)     620
 10:   tAIB           Application Icon                   1000 (0x03e8)     2360
 11:   tAIB           Application Icon                   1001 (0x03e9)     692
-12:   Talt           Alert                              1012 (0x03f4)     36
-13:   Talt           Alert                              1013 (0x03f5)     63
-14:   tFRM           Form                               1014 (0x03f6)     368
+12:   Talt           Alert                              1011 (0x03f3)     36
+13:   Talt           Alert                              1012 (0x03f4)     63
+14:   tFRM           Form                               1013 (0x03f5)     368

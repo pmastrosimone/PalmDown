@@ -41,37 +41,12 @@
         <DEFAULT>true</DEFAULT>
         <PATH USERELATIVEPATHS = "true">PalmDown.mcp</PATH>
         <FRAMELOC>
-            <X>59</X>
-            <Y>172</Y>
+            <X>4</X>
+            <Y>150</Y>
         </FRAMELOC>
         <FRAMESIZE>
-            <W>350</W>
-            <H>407</H>
-        </FRAMESIZE>
-        <DOCKINFO>
-            <STATUS>1</STATUS>
-            <ROW>0</ROW>
-            <COLUMN>0</COLUMN>
-            <DOCKBARID>59420</DOCKBARID>
-            <PCTWIDTH>1.000000</PCTWIDTH>
-            <HGT>470</HGT>
-            <GROUPID>
-                <GIDHIGHPART>0</GIDHIGHPART>
-                <GIDLOWPART>0</GIDLOWPART>
-            </GROUPID>
-        </DOCKINFO>
-    </WINDOW>
-    <WINDOW>
-        <SESSION>-1</SESSION>
-        <EDOCTYPE>1</EDOCTYPE>
-        <PATH USERELATIVEPATHS = "true">Src\PalmDownVFS.h</PATH>
-        <FRAMELOC>
-            <X>173</X>
-            <Y>75</Y>
-        </FRAMELOC>
-        <FRAMESIZE>
-            <W>819</W>
-            <H>682</H>
+            <W>400</W>
+            <H>372</H>
         </FRAMESIZE>
         <DOCKINFO>
             <STATUS>0</STATUS>
@@ -91,12 +66,37 @@
         <EDOCTYPE>1</EDOCTYPE>
         <PATH USERELATIVEPATHS = "true">Src\PalmDown.c</PATH>
         <FRAMELOC>
-            <X>100</X>
-            <Y>35</Y>
+            <X>1044</X>
+            <Y>245</Y>
         </FRAMELOC>
         <FRAMESIZE>
-            <W>749</W>
-            <H>711</H>
+            <W>637</W>
+            <H>647</H>
+        </FRAMESIZE>
+        <DOCKINFO>
+            <STATUS>0</STATUS>
+            <ROW></ROW>
+            <COLUMN></COLUMN>
+            <DOCKBARID></DOCKBARID>
+            <PCTWIDTH></PCTWIDTH>
+            <HGT></HGT>
+            <GROUPID>
+                <GIDHIGHPART></GIDHIGHPART>
+                <GIDLOWPART></GIDLOWPART>
+            </GROUPID>
+        </DOCKINFO>
+    </WINDOW>
+    <WINDOW>
+        <SESSION>-1</SESSION>
+        <EDOCTYPE>1</EDOCTYPE>
+        <PATH USERELATIVEPATHS = "true">Src\PalmDownVFS.h</PATH>
+        <FRAMELOC>
+            <X>3</X>
+            <Y>150</Y>
+        </FRAMELOC>
+        <FRAMESIZE>
+            <W>742</W>
+            <H>904</H>
         </FRAMESIZE>
         <DOCKINFO>
             <STATUS>0</STATUS>

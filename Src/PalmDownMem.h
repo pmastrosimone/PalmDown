@@ -20,19 +20,24 @@ FileStream.h- what salmon do to lay eggs; or for filestreaming I can't remember 
 #include <ErrorBase.h>
 #include <DataMgr.h>
 #include <FileStream.h>
+#include <Table.h>
+
 #include "PalmDown.h"
+#include "PalmDown_Rsc.h"
 
 /*GLOBALS
 
 Should see if these can become locals*/
+//TURN REFERENCE INTO LOCAL; IS GLOBAL IN PD.C + CAN BE PASSED FROM FUNC TO FUNC  
 const Char *dbName;
 const Char *testData;
+const UInt16 internalCard = 0;
 UInt16 pdbIndex; 
 
 
 DmOpenRef reference;
 LocalID dbLoc;
-const UInt16 internalCard = 0;
+
 
 /*Here we check for PalmDownDB
 
@@ -77,14 +82,14 @@ static DmOpenRef pdbOpen(){
 	 }
 }
 
-//Creates a new record within the internal database of 512 bytes (arbitrary) and returns its handle
-MemHandle pdbNewRec(){
+//Creates a new record within the internal database of SIZE bytes (arbitrary) and returns its handle
+MemHandle pdbNewRec(UInt32 size){
 	MemHandle handle;
-	const UInt32 size512B = 512;
+	
 
 	
 	pdbIndex = dmMaxRecordIndex; 
-	handle = DmNewRecord(reference, &pdbIndex, size512B);
+	handle = DmNewRecord(reference, &pdbIndex, size);
 	return handle;
 }
 
@@ -117,15 +122,50 @@ Err memStop(){
 	
 }
 
-//Used to populate the table from fileList(vfs), should (in theory) also be able to be used for internal storage
-/*void populateTable(MemPtr fileListP, UInt16 n, UInt32 bytes, TableType fileTablePtr){
+
+void populateTable(FormType *frmP, TableType *fileTablePtr, UInt16 n){
 	UInt16 offset = 0;
 	Int16 row = 0;
 	Int16 col = 0;
+	UInt16 recIter = 9;
+	UInt16 index;
+	UInt32 recIDP;
+	Err recordInfoErr;
+	FieldPtr tableFieldP;
+	MemHandle recordHandle;
+	MemPtr lockRecPtr;
 	
-	while (offset != bytes){
-		TblSetItemPtr(fileTablePtr, row, col, fileListP[offset]);
-		offset += 256;
-		row++; 
+	index = FrmGetObjectIndex(frmP, fileTable);
+	FrmSetFocus(frmP, noFocus);
+	TblGrabFocus(fileTablePtr, row, col);
+	while (row != n){
+		//In theory this break statement isn't necessary
+		if(n == 0){
+			break;
+		}
+		
+		recordHandle = DmQueryRecord(reference, recIter);
+		recordInfoErr = DmRecordInfo(reference, recIter, NULL, &recIDP, NULL);
+		lockRecPtr = MemHandleLock(recordHandle); 
+		TblInsertRow(fileTablePtr, row);		
+		
+		TblSetRowData(fileTablePtr, row, recIDP);
+		TblSetRowUsable(fileTablePtr, row, true);
+		TblSetItemStyle(fileTablePtr, row, col, labelTableItem);
+	
+		
+		TblSelectItem(fileTablePtr, row, col);
+		tableFieldP = TblGetCurrentField(fileTablePtr);
+		FldGrabFocus(tableFieldP);
+		FldSetInsPtPosition(tableFieldP, 0);
+		
+		FldSetTextPtr(tableFieldP, lockRecPtr);
+		FldReleaseFocus(tableFieldP);
+		MemHandleUnlock(recordHandle);
+		row++;
 	}
-}		  */
+	
+	
+	TblMarkTableInvalid(fileTablePtr);	
+	TblDrawTable(fileTablePtr);
+}		  
