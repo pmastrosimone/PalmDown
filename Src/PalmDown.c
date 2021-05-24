@@ -17,7 +17,7 @@
 #include <StringMgr.h>
 #include <TextMgr.h>
 #include "PalmDown.h"
-#include "PalmDown_Rsc.h"
+#include "PalmDown_ConRsc.h"
 #include "PalmDownMem.h"
 #include "PalmDownVFS.h"
 
@@ -34,7 +34,6 @@ DmOpenRef dbRef;
 UInt16 n;
 UInt16 fRecStop;
 const Char *testData;
-
 
 //
 
@@ -53,7 +52,7 @@ const Char *testData;
 /*		 
  * FUNCTION: GetObjectPtr
  *
- * DESCRIPTION:
+ * DESCRIPTION:									 
  *
  * This routine returns a pointer to an object in the current form.
  *
@@ -66,9 +65,9 @@ const Char *testData;
  *     address of object as a void pointer
  */
 
-static void * GetObjectPtr(UInt16 objectID)
+static void *GetObjectPtr(UInt16 objectID)
 {
-	FormType * frmP;
+	FormType *frmP;
 
 	frmP = FrmGetActiveForm();
 	return FrmGetObjectPtr(frmP, FrmGetObjectIndex(frmP, objectID));
@@ -88,70 +87,15 @@ static void * GetObjectPtr(UInt16 objectID)
 
 static void MainFormInit(FormType *frmP)
 {
-	//const UInt16 i = n - 1;
-	//Char recordChar;
-	//FieldPtr tableItem;
+	
 	FieldType *field;
-	//UInt16 fieldIndex;
-  	//UInt16 row = 0; 
-	//UInt16 recIter = 9;
+
 	TableType *fileTablePtr;
-	//Int16 zeroOff = 0;
-	//Int16 byte256 = 256;
-	//MemHandle recordHandle;
-    //UInt32 recIDP;
-	//Err tableLoadErr;
-	//Err recordInfoErr;
-	//MemPtr lockRecPtr;
-	//Boolean fldInsertDebug;
-	fileTablePtr = GetObjectPtr(fileTable);
-	
 
+	fileTablePtr = FrmGetObjectPtr(frmP, FrmGetObjectIndex(frmP, MainFileTable));
 
-
-	//fieldIndex = FrmGetObjectIndex(frmP, fileTable);
-    //FrmShowObject(frmP, fieldIndex);
-	//FrmSetFocus(frmP, fieldIndex);
 	populateTable(frmP, fileTablePtr, n);
-	//TblGrabFocus(fileTablePtr, row, 0);
-	/*while(row != n){
-		if(n == 0){
-			break;
-		}
-		recordHandle = DmQueryRecord(dbRef, recIter);
-		recordInfoErr = DmRecordInfo(dbRef, recIter, NULL, &recIDP, NULL);
-		lockRecPtr = MemHandleLock(recordHandle);
-		TblInsertRow(fileTablePtr, row);
-		TblSetSelection(fileTablePtr, row, 0);
-		TblSetRowUsable(fileTablePtr, row, true);
-		tableItem = TblGetCurrentField(fileTablePtr);
-		//TblSetItemStyle(fileTablePtr, row, 0, labelTableItem);
-		TblSetRowData(fileTablePtr, row, recIDP);
-		FldSetText(tableItem, recordHandle, 0, StrLen(lockRecPtr));
-		TblMarkRowInvalid(fileTablePtr, row);
-		MemPtrUnlock(lockRecPtr);
-	
-		row++;
-		recIter++;
-	}		  */
-	//TblMarkTableInvalid(fileTablePtr);	
-
-	/*wizardDescription =
-		"C application\n"
-		"Creator Code: PMe5\n"
-		"\n"
-		"Other SDKs:\n"
-		;
-			*/	
-	/* dont stack FldInsert calls, since each one generates a
-	 * fldChangedEvent, and multiple uses can overflow the event queue */
-	//FldInsert(field, wizardDescription, StrLen(wizardDescription));
-	//while(rowIter != n){
-		//TblSetItemPtr(fileTablePtr, rowIter, 0, fileLRecP[offset]);
-		//offset += 256;
-		//rowIter++;
-	//}
-
+    //FrmShowObject(frmP, FrmGetObjectIndex(frmP, MainFileTable));
 
 }
 
@@ -163,7 +107,7 @@ static void MainFormInit(FormType *frmP)
  * PARAMETERS:
  *
  * command
- *     menu item id
+ *     menu item id			  
  */
 
 static Boolean MainFormDoCommand(UInt16 command)
@@ -199,8 +143,9 @@ static Boolean MainFormDoCommand(UInt16 command)
 static Boolean MainFormHandleEvent(EventType * eventP)
 {
 	Boolean handled = false;
-	FormType * frmP;
-    
+	FormType *frmP;
+    TableType *fileTablePtr;
+	Boolean visible;
 	switch (eventP->eType) 
 	{
 		case menuEvent:
@@ -212,6 +157,10 @@ static Boolean MainFormHandleEvent(EventType * eventP)
 			MainFormInit(frmP);
 			
 			FrmDrawForm(frmP);
+			//fileTablePtr = GetObjectPtr(MainFileTable);
+			//TblMarkTableInvalid(fileTablePtr);
+			//TblRedrawTable(fileTablePtr);
+			FrmShowObject(frmP, FrmGetObjectIndex(frmP, MainFileTable));
 			
 			handled = true;
 			break;
@@ -231,14 +180,14 @@ static Boolean MainFormHandleEvent(EventType * eventP)
 			
 		case ctlSelectEvent:
 		{
-			if (eventP->data.ctlSelect.controlID == testNewRec){
+			if (eventP->data.ctlSelect.controlID == MainTestNewRecButton){
 			 	MemHandle recHandle =  pdbNewRec(512);
 			 	//Currently calls pdbWriteRec as a test, and passes testData
 			 	Boolean writeSuccess = pdbWriteRec(recHandle, testData);
 			 	break;
 			}
-			if (eventP->data.ctlSelect.controlID == editTestButton){
-				FrmGotoForm(editorForm);
+			if (eventP->data.ctlSelect.controlID == MainEditTestButton){
+				FrmGotoForm(EditorForm);
 			}
 			break;
 		}
@@ -247,11 +196,11 @@ static Boolean MainFormHandleEvent(EventType * eventP)
 	return handled;
 }
 
-static void editorFormInit(FormType *frmP){
+static void EditorFormInit(FormType *frmP){
 	
 }
 
-static Boolean editorFormDoCommand(UInt16 command){
+static Boolean EditorFormDoCommand(UInt16 command){
 	Boolean handled = false;
 
 	switch (command)
@@ -262,17 +211,17 @@ static Boolean editorFormDoCommand(UInt16 command){
 	return handled;
 }
 
-static Boolean editorFormHandleEvent(EventType * eventP){
+static Boolean EditorFormHandleEvent(EventType * eventP){
 	Boolean handled = false; 
 	FormType *frmP;
 	switch (eventP->eType){
 		case menuEvent:
-			return editorFormDoCommand(eventP->data.menu.itemID);
+			return EditorFormDoCommand(eventP->data.menu.itemID);
 
 		case frmOpenEvent:
 			frmP = FrmGetActiveForm();
 			FrmDrawForm(frmP);
-			editorFormInit(frmP);
+			EditorFormInit(frmP);
 			handled = true;
 			break;
             
@@ -297,7 +246,7 @@ static Boolean editorFormHandleEvent(EventType * eventP){
 				}
 				break;
 			}
-			if (eventP->data.ctlSelect.controlID == testNewRec){
+			if (eventP->data.ctlSelect.controlID == MainTestNewRec){
 			 	MemHandle recHandle =  pdbNewRec();
 			 	Boolean writeSuccess = pdbWriteRec(recHandle);
 			 	break;*/
@@ -329,7 +278,7 @@ static Boolean editorFormHandleEvent(EventType * eventP){
 static Boolean AppHandleEvent(EventType * eventP)
 {
 	UInt16 formId;
-	FormType * frmP;
+	FormType *frmP;
 
 	if (eventP->eType == frmLoadEvent)
 	{
@@ -348,8 +297,8 @@ static Boolean AppHandleEvent(EventType * eventP)
 			case MainForm:
 				FrmSetEventHandler(frmP, MainFormHandleEvent);
 				break;
-			case editorForm:
-				FrmSetEventHandler(frmP, editorFormHandleEvent);
+			case EditorForm:
+				FrmSetEventHandler(frmP, EditorFormHandleEvent);
 				break;
 		}
 		return true;
@@ -398,7 +347,6 @@ static Err AppStart(void)
 {
 
 	UInt32 bytes;
-    testData = "1234 Is this thing on?";
     dbRef = pdbOpen();
 	n = openVolume(dbRef);
 	bytes = n * 256;

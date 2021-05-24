@@ -22,10 +22,13 @@ Includes:
 #include <StringMgr.h>
 #include <MemoryMgr.h>
 #include "PalmDown.h"
+//#include "TypedefTest.h"
 
 UInt16 openVolume(DmOpenRef dbRef){
+	//FileStruct fileinfo; 
 	UInt16 fRec;
 	UInt16 offset = 0;
+	UInt16 rSize;
 	Err volEnumErr;
 	Err volOpenErr;
 	Err dirEnumErr;
@@ -35,12 +38,17 @@ UInt16 openVolume(DmOpenRef dbRef){
 	UInt32 dirIterPtr;
 	FileRef dirRef;
 	MemHandle fileBuffer;
+	
+	MemPtr recordP;
 	MemHandle recordBuffer;
 	MemPtr fileBufP;
 	MemPtr recordPtr;
 	FileInfoType fileInfo;
 	UInt32 attributes;
 	UInt16 n;
+	
+	//Char nChar;
+	Char *fileData;
 	const Char *mdext;
 	UInt16 size;
 	const UInt16 extSize = 3;
@@ -62,6 +70,10 @@ UInt16 openVolume(DmOpenRef dbRef){
 	volIterPtr = vfsIteratorStart;
 	dirIterPtr = vfsIteratorStart;
 	n = 0;
+	rSize = 256;
+	
+	
+	
 	
 	//turn this into while loop for mult. volumes (?)
 	//Save for the Zodiac this may not be necessary
@@ -69,7 +81,7 @@ UInt16 openVolume(DmOpenRef dbRef){
 	//if mult. volumes are implemented, find some way to get user input before passing volref
 	//Maybe just a different version for the Zodiac?
 	volOpenErr = VFSFileOpen(volRefPtr, "/", 0x0002U, &dirRef);
-	
+	recordBuffer = DmNewRecord(dbRef, &fRec, rSize);
 	if (volOpenErr == errNone){
 		while(dirIterPtr != vfsIteratorStop){
 			dirEnumErr = VFSDirEntryEnumerate(dirRef, &dirIterPtr, &fileInfo);
@@ -87,17 +99,19 @@ UInt16 openVolume(DmOpenRef dbRef){
 				compareStart = size - extSize;
 				fileNameChk = StrStr(&fileInfo.nameP[compareStart], mdext);
 				//would using && == mdext be good or unecessary?
+				
 				if (fileNameChk != NULL){
 					//iterate n for number of entries
-					recordBuffer = DmNewRecord(dbRef, &fRec, 256);
-					recordPtr = MemHandleLock(recordBuffer);
+					recordBuffer = DmNewRecord(dbRef, &fRec, rSize);
+					recordP = MemHandleLock(recordBuffer);
 					
-					DmStrCopy(recordPtr, offset, fileBufP);
+					DmStrCopy(recordP, 0, fileBufP);
 					
 					//DmWrite(recordPtr, offset, &fileInfo.nameP, size);
-					DmReleaseRecord(dbRef, fRec, true);
-					fRec++;
+															  
 					n++;
+					MemHandleUnlock(recordBuffer);
+					fRec++;
 				}
 				//ReNullify the fileNameChk before stepping through again
 				fileNameChk = NULL;
@@ -109,7 +123,7 @@ UInt16 openVolume(DmOpenRef dbRef){
 	} else{
 	
 	}
-	
+	//DmReleaseRecord(dbRef, fRec, true);
 	//Freeing the fileBuffer
 	MemHandleUnlock(fileBuffer);
 	MemHandleFree(fileBuffer);

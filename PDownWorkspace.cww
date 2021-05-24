@@ -41,48 +41,48 @@
         <DEFAULT>true</DEFAULT>
         <PATH USERELATIVEPATHS = "true">PalmDown.mcp</PATH>
         <FRAMELOC>
-            <X>4</X>
-            <Y>150</Y>
+            <X>90</X>
+            <Y>196</Y>
         </FRAMELOC>
         <FRAMESIZE>
             <W>400</W>
             <H>372</H>
         </FRAMESIZE>
         <DOCKINFO>
-            <STATUS>0</STATUS>
-            <ROW></ROW>
-            <COLUMN></COLUMN>
-            <DOCKBARID></DOCKBARID>
-            <PCTWIDTH></PCTWIDTH>
-            <HGT></HGT>
+            <STATUS>1</STATUS>
+            <ROW>0</ROW>
+            <COLUMN>0</COLUMN>
+            <DOCKBARID>59420</DOCKBARID>
+            <PCTWIDTH>1.000000</PCTWIDTH>
+            <HGT>318</HGT>
             <GROUPID>
-                <GIDHIGHPART></GIDHIGHPART>
-                <GIDLOWPART></GIDLOWPART>
+                <GIDHIGHPART>0</GIDHIGHPART>
+                <GIDLOWPART>0</GIDLOWPART>
             </GROUPID>
         </DOCKINFO>
     </WINDOW>
     <WINDOW>
         <SESSION>-1</SESSION>
         <EDOCTYPE>1</EDOCTYPE>
-        <PATH USERELATIVEPATHS = "true">Src\PalmDown.c</PATH>
+        <PATH USERELATIVEPATHS = "true">Src\PalmDownMem.h</PATH>
         <FRAMELOC>
-            <X>1044</X>
-            <Y>245</Y>
+            <X>411</X>
+            <Y>145</Y>
         </FRAMELOC>
         <FRAMESIZE>
-            <W>637</W>
-            <H>647</H>
+            <W>1026</W>
+            <H>841</H>
         </FRAMESIZE>
         <DOCKINFO>
-            <STATUS>0</STATUS>
-            <ROW></ROW>
-            <COLUMN></COLUMN>
-            <DOCKBARID></DOCKBARID>
-            <PCTWIDTH></PCTWIDTH>
-            <HGT></HGT>
+            <STATUS>1</STATUS>
+            <ROW>1</ROW>
+            <COLUMN>0</COLUMN>
+            <DOCKBARID>59420</DOCKBARID>
+            <PCTWIDTH>1.000000</PCTWIDTH>
+            <HGT>740</HGT>
             <GROUPID>
-                <GIDHIGHPART></GIDHIGHPART>
-                <GIDLOWPART></GIDLOWPART>
+                <GIDHIGHPART>30887742</GIDHIGHPART>
+                <GIDLOWPART>1480986906</GIDLOWPART>
             </GROUPID>
         </DOCKINFO>
     </WINDOW>
@@ -91,23 +91,23 @@
         <EDOCTYPE>1</EDOCTYPE>
         <PATH USERELATIVEPATHS = "true">Src\PalmDownVFS.h</PATH>
         <FRAMELOC>
-            <X>3</X>
-            <Y>150</Y>
+            <X>1363</X>
+            <Y>434</Y>
         </FRAMELOC>
         <FRAMESIZE>
-            <W>742</W>
-            <H>904</H>
+            <W>466</W>
+            <H>344</H>
         </FRAMESIZE>
         <DOCKINFO>
-            <STATUS>0</STATUS>
-            <ROW></ROW>
-            <COLUMN></COLUMN>
-            <DOCKBARID></DOCKBARID>
-            <PCTWIDTH></PCTWIDTH>
-            <HGT></HGT>
+            <STATUS>1</STATUS>
+            <ROW>1</ROW>
+            <COLUMN>0</COLUMN>
+            <DOCKBARID>59420</DOCKBARID>
+            <PCTWIDTH>1.000000</PCTWIDTH>
+            <HGT>740</HGT>
             <GROUPID>
-                <GIDHIGHPART></GIDHIGHPART>
-                <GIDLOWPART></GIDLOWPART>
+                <GIDHIGHPART>30887742</GIDHIGHPART>
+                <GIDLOWPART>1480986906</GIDLOWPART>
             </GROUPID>
         </DOCKINFO>
     </WINDOW>

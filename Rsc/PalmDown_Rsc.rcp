@@ -54,10 +54,11 @@ FORM ID MainForm AT (0 0 160 160)
 BEGIN
 	TITLE "PalmDown"
     GRAFFITISTATEINDICATOR AT (149 148)
-		BUTTON "testNewRec" ID testNewRec  AT (0 107 54 15)
-BUTTON "Clear Text" ID MainClearTextButton AT (1 147 AUTO 12)
-	BUTTON "editTestButton" ID editTestButton  AT (1 128 67 14)
-	TABLE ID fileTable  AT (6 17 149 84) ROWS 10 COLUMNS 2 COLUMNWIDTHS 110 20
+		BUTTON "testNewRec" ID testNewRec  AT (4 105 54 15)
+BUTTON "Clear Text" ID MainClearTextButton AT (4 143 AUTO 12)
+		
+BUTTON "editTestButton" ID editTestButton  AT (3 125 67 14)
+		TABLE ID fileTable  AT (6 17 149 84) ROWS 10 COLUMNS 2 COLUMNWIDTHS 110 20
 END
 
 ICONFAMILYEX

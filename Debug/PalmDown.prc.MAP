@@ -28,10 +28,9 @@ File:   27	"\\engserv\cdserver\Product_Layouts\PalmOS\Version 9.0\Win Layout\CW 
 File:   28	"\\engserv\cdserver\Product_Layouts\PalmOS\Version 9.0\Win Layout\CW for Palm OS Support\MSL\MSL_C\MSL_Common\Src\rand.c"
 File:   29	"\\engserv\cdserver\Product_Layouts\PalmOS\Version 9.0\Win Layout\CW for Palm OS Support\MSL\MSL_C\MSL_Common\Src\ctype.c"
 File:   30	"\\engserv\cdserver\Product_Layouts\PalmOS\Version 9.0\Win Layout\CW for Palm OS Support\MSL\MSL_C\MSL_Common\Src\locale.c"
-File:   31	"Z:\home\pmastrosimone\Development\PalmDown\Rsc\PalmDown_Rsc.rcp"
-File:   32	"Z:\home\pmastrosimone\Development\PalmDown\Src\PalmDown.c"
+File:   31	"Z:\home\pmastrosimone\Development\PalmDown\Src\PalmDown.c"
 
-Segment:   1    3088 bytes  "Segment 1"
+Segment:   1    3166 bytes  "Segment 1"
 Code: 000004      12 bytes  "__DummyStartup__"               File: "__RuntimeModule__"
 Code: 000010      12 bytes  "__dthandler__4MTWKFv"           File: "NMWException.cp"
 Code: 00001c      12 bytes  "__duhandler__4MTWKFv"
@@ -47,42 +46,44 @@ Code: 000276       8 bytes  "__InitCode__"
 Code: 00027e     132 bytes  "__SkipToXREFs____4MTWKFPSc"
 Code: 000302     128 bytes  "__PatchV10Devices____4MTWKFP14SysAppInfoType"
 Code: 000382     234 bytes  "__LoadAndRelocate____4MTWKFUcP7_opaque"
-Code: 00046c     222 bytes  "pdbOpen"                        File: "Z:\home\pmastrosimone\Development\PalmDown\Src\PalmDown.c"
-Code: 00054a      42 bytes  "pdbNewRec"
-Code: 000574     128 bytes  "pdbWriteRec"
-Code: 0005f4     256 bytes  "populateTable"
-Code: 0006f4     322 bytes  "openVolume"
-Code: 000836      40 bytes  "GetObjectPtr"
-Code: 00085e      40 bytes  "MainFormInit"
-Code: 000886      10 bytes  "MainFormDoCommand"
-Code: 000890     156 bytes  "MainFormHandleEvent"
-Code: 00092c       8 bytes  "editorFormInit"
-Code: 000934      10 bytes  "editorFormDoCommand"
-Code: 00093e      82 bytes  "editorFormHandleEvent"
-Code: 000990      92 bytes  "AppHandleEvent"
-Code: 0009ec      90 bytes  "AppEventLoop"
-Code: 000a46      86 bytes  "AppStart"
-Code: 000a9c      12 bytes  "AppStop"
-Code: 000aa8     280 bytes  "RomVersionCompatible"
-Code: 000bc0      80 bytes  "PilotMain"
+Code: 00046c     216 bytes  "pdbOpen"                        File: "Z:\home\pmastrosimone\Development\PalmDown\Src\PalmDown.c"
+Code: 000544      42 bytes  "pdbNewRec"
+Code: 00056e     128 bytes  "pdbWriteRec"
+Code: 0005ee     266 bytes  "populateTable"
+Code: 0006f8     380 bytes  "openVolume"
+Code: 000874      40 bytes  "GetObjectPtr"
+Code: 00089c      40 bytes  "MainFormInit"
+Code: 0008c4      10 bytes  "MainFormDoCommand"
+Code: 0008ce     204 bytes  "MainFormHandleEvent"
+Code: 00099a       8 bytes  "EditorFormInit"
+Code: 0009a2      10 bytes  "EditorFormDoCommand"
+Code: 0009ac      82 bytes  "EditorFormHandleEvent"
+Code: 0009fe      92 bytes  "AppHandleEvent"
+Code: 000a5a      90 bytes  "AppEventLoop"
+Code: 000ab4      54 bytes  "AppStart"
+Code: 000aea      12 bytes  "AppStop"
+Code: 000af6     280 bytes  "RomVersionCompatible"
+Code: 000c0e      80 bytes  "PilotMain"
 
-Data section below A5:     34 bytes
-Data section above A5:    168 bytes
+Data section below A5:     30 bytes
+Data section above A5:     40 bytes
 
 Uninitialized near data
 Data:     -4       4 bytes  "__CW_FEATURES_PTR"
 Data:     -8       4 bytes  "__global_destructor_chain"
 Data:    -12       4 bytes  "dbName"
-Data:    -16       4 bytes  "testData"
-Data:    -18       2 bytes  "pdbIndex"
-Data:    -22       4 bytes  "reference"
-Data:    -26       4 bytes  "dbLoc"
-Data:    -30       4 bytes  "dbRef"
-Data:    -32       2 bytes  "n"
-Data:    -34       2 bytes  "fRecStop"
+Data:    -14       2 bytes  "pdbIndex"
+Data:    -18       4 bytes  "reference"
+Data:    -22       4 bytes  "dbRef"
+Data:    -24       2 bytes  "n"
+Data:    -26       2 bytes  "fRecStop"
+Data:    -30       4 bytes  "testData"
 
-Initialized far data
-Data:     40     128 bytes  "__segtable__"
+Expanded Data section below A4:      0 bytes
+Expanded Data section above A4:    128 bytes
+
+Expanded initialized far A4 relative data
+Data:      0     128 bytes  "__segtable__"
 
 -----
 
@@ -90,27 +91,15 @@ PRC DB Name:       PalmDown
 PRC DB Version:    1
 Type:              appl
 Creator:           PMe5
-Resource Count:    14
-Creation Time:     2021-05-13 @ 1059
-Modification Time: 2021-05-13 @ 1059
+Resource Count:    4
+Creation Time:     2021-05-22 @ 1056
+Modification Time: 2021-05-22 @ 1056
 Last Backup Time:  
 Attributes:         0x00000009
                     dmHdrAttrResDB
                     dmHdrAttrBackup
 
-1:   tAIN           Application Name String            1000 (0x03e8)     9
-[PalmDown]
-2:   tver           Application Version String         1000 (0x03e8)     11
-[21.05..03d]
-3:   code           68K Object Code                    1 (0x0001)        3088
-4:   data           68K Global Data                    0 (0x0000)        107
-5:   code           68K Object Code                    0 (0x0000)        24
-6:   MBAR           Menu Bar                           1001 (0x03e9)     191
-7:   MBAR           Menu Bar                           1003 (0x03eb)     191
-8:   Talt           Alert                              1005 (0x03ed)     98
-9:   tFRM           Form                               1006 (0x03ee)     620
-10:   tAIB           Application Icon                   1000 (0x03e8)     2360
-11:   tAIB           Application Icon                   1001 (0x03e9)     692
-12:   Talt           Alert                              1011 (0x03f3)     36
-13:   Talt           Alert                              1012 (0x03f4)     63
-14:   tFRM           Form                               1013 (0x03f5)     368
+1:   code           68K Object Code                    1 (0x0001)        3166
+2:   data           68K Global Data                    0 (0x0000)        43
+3:   data           68K Global Data                    1 (0x0001)        103
+4:   code           68K Object Code                    0 (0x0000)        24
